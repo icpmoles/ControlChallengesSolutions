@@ -13,15 +13,15 @@ dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant 
 
 # State Space Matrix
-A = [ 0  1 0 
+A = [0 1 0
     0 -μ 1
-    0  0  -τ
+    0 0 -τ
 ];
-B = [ 0
-     0
+B = [0
+    0
     τ];
-C = [ 1 0 0
-0 1 0];
+C = [1 0 0
+    0 1 0];
 
 
 
@@ -32,62 +32,68 @@ bodeplot(tf(sys))
 current_poles = poles(sys)
 
 
-ϵ = 2im;
-pp = 20;
-p = -2*[pp+ϵ pp-ϵ (pp/4)];
+ϵ = 0.01;
+pp = 15;
+p = -2 * [pp + ϵ pp - ϵ (pp / 4)];
 observability(A, C)
 controllability(A, B)
 
 
-L = real(place(sys, p, :c))
+L = real(place(sys, p, :c));
 
 
 # L = place(A', C', 5*p, opt=:c) # error, let's use kalman
 R1 = diagm([0.01, 0.02, 0.03])
 R2 = diagm([0.005, 0.002])
-K = kalman(sys, R1, R2; direct = false)
+K = kalman(sys, R1, R2; direct=false)
 
 cont = observer_controller(sys, L, K; direct=false)
 
 
-closedLoop = feedback(sys,cont)
+closedLoop = feedback(sys, cont)
 
 clpoles = poles(closedLoop)
 setPlotScale("dB")
 
 gangoffourplot(sys, cont; minimal=true)
 
-bodeplot(closedLoop[1,1],0.1:40)
+bodeplot(closedLoop[1, 1], 0.1:40)
 
 K = L[1]
 Ti = 0;
-Td = L[2]/L[1]
+Td = L[2] / L[1]
 
 
 pid = DiscretePID(; K, Ts, Ti, Td)
 
-sysreal = ss(A, B, [1 0 0], 0)  
+sysreal = ss(A, B, [1 0 0], 0)
 
-ctrl = function(x,t)
+ctrl = function (x, t)
     y = (sysreal.C*x)[] # measurement
-    d = 1         # disturbance
-    r = (t >= 0) # reference
+    d = 0 * [1.0]        # disturbance
+    r = 2 * (t >= 0) # reference
     # u = pid(r, y) # control signal
     # u + d # Plant input is control signal + disturbance
     # u =1
-    e =  x - [r;0 ;0]
-    e[3]=0;
-    # u = -L[:,1:2]*e[1:2,:]
-    u = -L*e
+    e = x - [r; 0; 0]
+    e[3] = 0 # torque not observable, just ignore it in the final feedback
+    u = -L * e + d
+    u = [maximum([-20 minimum([20 u])])]
 end
-t  = 0:Ts:Tf
+t = 0:Ts:Tf
 
-u(x,t) = -L*x 
 
-res= lsim(sysreal, ctrl, t)
+res = lsim(sysreal, ctrl, t)
 
-# plot(res, plotu=true); ylabel!("u", sp=2)
+plot(res, plotu=true, plotx=true, ploty=false);
+ylabel!("u", sp=1);
+ylabel!("x", sp=2);
+ylabel!("v", sp=3);
+ylabel!("T", sp=4);
 
+#  ylabel!(["u", "x","v","T"]);
+
+# 
 si = stepinfo(res);
-plot(si)
-title!("Step Response")
+plot(si);
+title!("Step Response");
