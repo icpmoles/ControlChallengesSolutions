@@ -2,7 +2,7 @@
 
 julia_version = "1.11.5"
 manifest_format = "2.0"
-project_hash = "10e6249016599df38d1f45f52a3457ba0ae01951"
+project_hash = "900eb7fa8085a61d739531d9c75deaaf2a8622f8"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e2478490447631aedba0823d4d7a80b2cc8cdb32"
@@ -369,6 +369,12 @@ version = "0.6.54"
     Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
     Tracker = "9f7883ad-71c0-57eb-9f7f-b5c9e6d3789c"
     Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+
+[[deps.DiscretePIDs]]
+deps = ["Printf"]
+git-tree-sha1 = "c0286c75b7d64e52d10bf48f094be4632e75d77d"
+uuid = "c1363496-6848-4723-8758-079b737f6baf"
+version = "0.1.6"
 
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]

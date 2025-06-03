@@ -1,8 +1,11 @@
-using ControlSystems
+using DiscretePIDs, ControlSystems, Plots
 using Plots
 using LinearAlgebra
+
 # System parameters
-g = 9.81
+Ts = 0.02 # sampling time
+Tf = 2; #final simulation time
+g = 9.81 #gravity
 α = 0.0 # slope
 μ = 1.0 # friction coefficient
 x_0 = -2.0 # starting position
@@ -28,12 +31,15 @@ sys = ss(A, B, C, 0)      # Continuous
 bodeplot(tf(sys))
 current_poles = poles(sys)
 
-p = -[10 15 12];
+
+ϵ = 2im;
+pp = 20;
+p = -2*[pp+ϵ pp-ϵ (pp/4)];
 observability(A, C)
 controllability(A, B)
 
 
-L = place(sys, p, :c)
+L = real(place(sys, p, :c))
 
 
 # L = place(A', C', 5*p, opt=:c) # error, let's use kalman
@@ -52,3 +58,36 @@ setPlotScale("dB")
 gangoffourplot(sys, cont; minimal=true)
 
 bodeplot(closedLoop[1,1],0.1:40)
+
+K = L[1]
+Ti = 0;
+Td = L[2]/L[1]
+
+
+pid = DiscretePID(; K, Ts, Ti, Td)
+
+sysreal = ss(A, B, [1 0 0], 0)  
+
+ctrl = function(x,t)
+    y = (sysreal.C*x)[] # measurement
+    d = 1         # disturbance
+    r = (t >= 0) # reference
+    # u = pid(r, y) # control signal
+    # u + d # Plant input is control signal + disturbance
+    # u =1
+    e =  x - [r;0 ;0]
+    e[3]=0;
+    # u = -L[:,1:2]*e[1:2,:]
+    u = -L*e
+end
+t  = 0:Ts:Tf
+
+u(x,t) = -L*x 
+
+res= lsim(sysreal, ctrl, t)
+
+# plot(res, plotu=true); ylabel!("u", sp=2)
+
+si = stepinfo(res);
+plot(si)
+title!("Step Response")
