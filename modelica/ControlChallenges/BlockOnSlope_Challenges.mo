@@ -36,13 +36,15 @@ model BlockOnSlope
 
   package Examples
   model WithFriction
+  parameter Real Kone = 337;
+  parameter Real Ktwo = 64;
   BlockOnSlope blockOnSlope(mu = 1, slope = 0, x0 = 0)  annotation(
         Placement(transformation(origin = {58, 8}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Step step(height = 2, startTime = 1)  annotation(
+  Modelica.Blocks.Sources.Step step(height = 2, startTime = 1, offset = 0)  annotation(
         Placement(transformation(origin = {-100, 10}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Discrete.ZeroOrderHold zeroOrderHold1111(samplePeriod = 0.02, ySample(fixed = false)) annotation(
         Placement(transformation(origin = {10, 8}, extent = {{-10, -10}, {10, 10}})));
-  FullStateFeedback fullStateFeedback(K1 = 337.5, K2 = 64)  annotation(
+  FullStateFeedback fullStateFeedback(K1 = Kone, K2 = Ktwo)  annotation(
         Placement(transformation(origin = {-34, 10}, extent = {{-10, -10}, {10, 10}})));
     equation
   connect(fullStateFeedback.u, zeroOrderHold1111.u) annotation(

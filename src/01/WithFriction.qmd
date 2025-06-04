@@ -1,0 +1,144 @@
+---
+title: "Control Challenges: 01 Block With Friction"
+author: "Iacopo Moles"
+date: "6/2/2025"
+format:
+  html:
+    code-fold: true
+jupyter: julia-1.11
+execute:
+  echo: true
+---
+
+### Parametric Plots
+
+We can convert the set of ODE into a state space representation. The final bode plot of the block position is: @fig-bode
+
+```{julia}
+#| label: fig-bode
+#| fig-cap: "Starting Bode Plot"
+
+using DiscretePIDs, ControlSystems, Plots
+using Plots
+using LinearAlgebra
+
+# System parameters
+Ts = 0.02 # sampling time
+Tf = 2; #final simulation time
+g = 9.81 #gravity
+α = 0.0 # slope
+μ = 1.0 # friction coefficient
+x_0 = -2.0 # starting position
+dx_0 = 0.0 # starting velocity
+τ = 20.0 # torque constant 
+
+# State Space Matrix
+A = [0 1 0
+    0 -μ 1
+    0 0 -τ
+];
+B = [0
+    0
+    τ];
+C = [1 0 0
+    0 1 0]
+
+sys = ss(A, B, C, 0)      # Continuous
+
+bodeplot(tf(sys))
+```
+
+It has the shape we expect from a motor + friction. Slow pole for the mass + friction and a faster pole for the current & inductance.
+
+Numerically they are:
+
+```{julia}
+#| label: fig-pzmap
+#| fig-cap: "Starting PZ map"
+#| 
+eigvals(A); # -20 , -1, 0  
+pzmap(tf(sys))
+```
+
+In @fig-pzmap we see that we start with all the pole in the left-half plane, which is good.
+
+We can design a controller with pole placement.
+
+```{julia}
+observability(A, C) #OK
+controllability(A, B) #OK
+ϵ = 0.01;
+pp = 15;
+p = -2* [pp + ϵ pp - ϵ (pp / 4)];
+L = real(place(sys, p, :c));
+```
+
+For some reason pole placement doesn't work for the observer, I use a Kalman Filter with random fast values.
+
+```{julia}
+R1 = diagm([0.01, 0.02, 0.03])
+R2 = diagm([0.005, 0.002])
+K = kalman(sys, R1, R2; direct=false)
+cont = observer_controller(sys, L, K; direct=false)
+```
+
+We can check the effect of the new controller on the loop
+
+```{julia}
+closedLoop = feedback(sys, cont)
+clpoles = poles(closedLoop)
+setPlotScale("dB")
+bodeplot(closedLoop[1, 1], 0.1:40)
+```
+
+From what I understand we are interested in the dotted line in the bottom right. See how flat it is.
+
+We can convert it to the standard PD gain form.
+
+```{julia}
+K = L[1];
+Ti = 0;
+Td = L[2] / L[1];
+pid = DiscretePID(; K, Ts, Ti, Td);
+```
+
+We can simulate this with a motor that only outputs the position:
+
+```{julia}
+sysreal = ss(A, B, [1 0 0], 0)
+ctrl = function (x, t)
+    y = (sysreal.C*x)[] # measurement
+    d = 0 * [1.0]        # disturbance
+    r = 2 * (t >= 0) # reference
+    # u = pid(r, y) # control signal
+    # u + d # Plant input is control signal + disturbance
+    # u =1
+    e = x - [r; 0; 0]
+    e[3] = 0 # torque not observable, just ignore it in the final feedback
+    u = -L * e + d
+    u = [maximum([-20 minimum([20 u])])]
+end
+t = 0:Ts:Tf
+
+
+res = lsim(sysreal, ctrl, t)
+
+plot(res, plotu=true, plotx=true, ploty=false);ylabel!("u", sp=1);ylabel!("x", sp=2);ylabel!("v", sp=3);ylabel!("T", sp=4)
+```
+
+For more stats:
+
+```{julia}
+si = stepinfo(res);
+plot(si);title!("Step Response")
+```
+
+We can also simulate it in a SIMULINK-like environment:
+
+```{julia}
+using FMI, DifferentialEquations
+fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu") 
+simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
+unloadFMU(fmu)
+plot(simData, states=false)
+```

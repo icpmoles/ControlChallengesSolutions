@@ -23,9 +23,6 @@ B = [0
 C = [1 0 0
     0 1 0];
 
-
-
-
 sys = ss(A, B, C, 0)      # Continuous
 
 bodeplot(tf(sys))
@@ -37,8 +34,6 @@ pp = 15;
 p = -2* [pp + ϵ pp - ϵ (pp / 4)];
 observability(A, C)
 controllability(A, B)
-
-
 L = real(place(sys, p, :c));
 
 
@@ -56,6 +51,7 @@ clpoles = poles(closedLoop)
 setPlotScale("dB")
 
 gangoffourplot(sys, cont; minimal=true)
+
 
 bodeplot(closedLoop[1, 1], 0.1:40)
 
