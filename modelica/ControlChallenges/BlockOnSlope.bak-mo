@@ -1,0 +1,6 @@
+within ControlChallenges;
+
+model BlockOnSlope
+equation
+
+end BlockOnSlope;

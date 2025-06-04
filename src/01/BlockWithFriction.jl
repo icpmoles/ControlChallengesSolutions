@@ -34,7 +34,7 @@ current_poles = poles(sys)
 
 ϵ = 0.01;
 pp = 15;
-p = -2 * [pp + ϵ pp - ϵ (pp / 4)];
+p = -2* [pp + ϵ pp - ϵ (pp / 4)];
 observability(A, C)
 controllability(A, B)
 
