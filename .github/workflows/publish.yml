@@ -65,8 +65,12 @@ jobs:
       - name: Publish to GitHub Pages (and render) 
         uses: quarto-dev/quarto-actions/publish@9e48da27e184aa238fcb49f5db75469626d43adb
         with:
-          path: "docs"
+          path: docs
           target: gh-pages
+          GITHUB_EMAIL: 8940011+icpmoles@users.noreply.github.com
+          GITHUB_USERNAME: icpmoles
+          render: false
+          to: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
 
