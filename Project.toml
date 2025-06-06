@@ -1,8 +1,0 @@
-[deps]
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
-ControlSystemsBase = "aaaaaaaa-a6ca-5380-bf3e-84a91bcd477e"
-DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
-DiscretePIDs = "c1363496-6848-4723-8758-079b737f6baf"
-FMI = "14a09403-18e3-468f-ad8a-74f8dda2d9ac"
-QuartoTools = "5fded309-f5a0-485a-9129-b3749510da85"
