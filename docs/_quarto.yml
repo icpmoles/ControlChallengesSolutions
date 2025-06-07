@@ -5,6 +5,12 @@ book:
   title: "Control Challenges: Solutions"
   author: "Iacopo Moles"
   date: "07/07/2025"
+  repo-url: https://github.com/icpmoles/controlchallengessolutions
+  repo-subdir: docs
+  favicon: static/favicon.ico
+  site-url: "https://pages.icpmol.es/ControlChallengesSolutions/"
+  open-graph: true
+
   chapters:
     - index.qmd
     - solution_01_01.qmd
@@ -14,6 +20,9 @@ format:
     theme: 
       light: zephyr
       dark: superhero
+    code-fold: true
+    code-tools: 
+      source: repo
     comments:
       hypothesis: true
     include-in-header:
@@ -25,6 +34,8 @@ format:
 execute:
   freeze: true
   cache: true
+  echo: false
+
 
 engines: ['julia']
 
