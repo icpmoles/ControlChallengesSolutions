@@ -1,0 +1,13 @@
+---
+title: "Control Challeges: Solutions"
+authors:
+  - name: Iacopo Moles
+    affiliation: Politecnico di Milano
+    roles: writing
+    corresponding: true
+bibliography: references.bib
+jupyter: julia-1.11
+---
+
+## Section
+This is a simple placeholder for the manuscript's main document [@knuth84].

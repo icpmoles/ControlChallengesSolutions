@@ -1,0 +1,52 @@
+[
+  {
+    "objectID": "solution_01_01.html",
+    "href": "solution_01_01.html",
+    "title": "2  Control Challenges: 01 Block With Friction",
+    "section": "",
+    "text": "2.1 State Space representation\nWe can convert the set of ODE into a state space representation. The final bode plot of the block position is: Figure 2.1\nusing DiscretePIDs, ControlSystems, Plots\nusing Plots\nusing LinearAlgebra\n\n# System parameters\nTs = 0.02 # sampling time\nTf = 2; #final simulation time\ng = 9.81 #gravity\nα = 0.0 # slope\nμ = 1.0 # friction coefficient\nx_0 = -2.0 # starting position\ndx_0 = 0.0 # starting velocity\nτ = 20.0 # torque constant \n\n# State Space Matrix\nA = [0 1 0\n    0 -μ 1\n    0 0 -τ\n];\nB = [0\n    0\n    τ];\nC = [1 0 0\n    0 1 0]\n\nsys = ss(A, B, C, 0)      # Continuous\n\nbodeplot(tf(sys))\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2.1: Starting Bode Plot\nIt has the shape we expect from a motor + friction. Slow pole for the mass + friction and a faster pole for the current & inductance.\nNumerically they are:\ndisplay(eigvals(A)) # -20 , -1, 0  \ndisplay(pzmap(tf(sys)))\n\n\n\n\n\n\n3-element Vector{Float64}:\n -20.0\n  -1.0\n   0.0\n\n\n(a) Starting PZ map\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\nFigure 2.2\nIn Figure 2.2 we see that we start with all the pole in the left-half plane, which is good.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Control Challenges: 01 Block With Friction</span>"
+    ]
+  },
+  {
+    "objectID": "solution_01_01.html#pole-placement",
+    "href": "solution_01_01.html#pole-placement",
+    "title": "2  Control Challenges: 01 Block With Friction",
+    "section": "2.2 Pole Placement",
+    "text": "2.2 Pole Placement\nWe can design a controller with pole placement.\n\nobservability(A, C) #OK\ncontrollability(A, B) #OK\nϵ = 0.01;\npp = 15;\np = -2* [pp + ϵ pp - ϵ (pp / 4)];\nL = real(place(sys, p, :c));\n\nFor some reason pole placement doesn’t work for the observer, I use a Kalman Filter with random fast values.\n\nR1 = diagm([0.001, 0.002, 0.003])\nR2 = diagm([0.00005, 0.0002])\nK = kalman(sys, R1, R2; direct=false)\ncont = observer_controller(sys, L, K; direct=false)\n\nStateSpace{Continuous, Float64}\nA = \n    -4.685967915536801       0.714441161776064    0.0\n    -1.1422353528957443     -3.272003345550814    1.0\n -6749.998862729541      -1283.5156906468235    -66.5\nB = \n 4.685967915536801      0.2855588382239361\n 1.1422353528957443     2.272003345550814\n 0.0018627295392554767  0.016090646823472696\nC = \n 337.49985000000004  64.17498  2.325\nD = \n 0.0  0.0\n\nContinuous-time state-space model\n\n\nWe can check the effect of the new controller on the loop\n\nclosedLoop = feedback(sys, cont)\nclpoles = poles(closedLoop)\nsetPlotScale(\"dB\")\nbodeplot(closedLoop[1, 1], 0.1:40)\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom what I understand we are interested in the dotted line in the bottom right. See how flat it is.\nWe can convert it to the standard PD gain form.\n\nK = L[1];\nTi = 0;\nTd = L[2] / L[1];\npid = DiscretePID(; K, Ts, Ti, Td);",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Control Challenges: 01 Block With Friction</span>"
+    ]
+  },
+  {
+    "objectID": "solution_01_01.html#simulation",
+    "href": "solution_01_01.html#simulation",
+    "title": "2  Control Challenges: 01 Block With Friction",
+    "section": "2.3 Simulation",
+    "text": "2.3 Simulation\nWe can simulate this with a motor that only outputs the position:\n\nsysreal = ss(A, B, [1 0 0], 0)\nctrl = function (x, t)\n    y = (sysreal.C*x)[] # measurement\n    d = 0 * [1.0]        # disturbance\n    r = 2 * (t &gt;= 0) # reference\n    # u = pid(r, y) # control signal\n    # u + d # Plant input is control signal + disturbance\n    # u =1\n    e = x - [r; 0; 0]\n    e[3] = 0 # torque not observable, just ignore it in the final feedback\n    u = -L * e + d\n    u = [maximum([-20 minimum([20 u])])]\nend\nt = 0:Ts:Tf\n\n\nres = lsim(sysreal, ctrl, t)\n\nplot(res, plotu=true, plotx=true, ploty=false);ylabel!(\"u\", sp=1);ylabel!(\"x\", sp=2);ylabel!(\"v\", sp=3);ylabel!(\"T\", sp=4)\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFor more stats:\n\nsi = stepinfo(res);\nplot(si);title!(\"Step Response\")\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWe can also simulate it in a SIMULINK-like environment:\n\nusing FMI, DifferentialEquations\nfmu = loadFMU(raw\"G:\\ControlChallengesSolutions\\modelica\\ControlChallenges\\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu\");\nsimData = simulateME(fmu, (0.0, 5.0); recordValues=[\"blockOnSlope.x\",\"blockOnSlope.xd\",\"blockOnSlope.usat\"]);\nunloadFMU(fmu);\nplot(simData, states=false, timeEvents=false)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Control Challenges: 01 Block With Friction</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Control Challenges: Solutions",
+    "section": "",
+    "text": "0.1 Section\nThis is a simple placeholder for the manuscript’s main document (Knuth 1984).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Control Challeges: Solutions</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Control Challenges: Solutions",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Control Challeges: Solutions</span>"
+    ]
+  }
+]

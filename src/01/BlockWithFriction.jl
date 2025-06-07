@@ -20,30 +20,31 @@ A = [0 1 0
 B = [0
     0
     τ];
-C = [1 0 0
+C = [1.0 0 0
     0 1 0];
 
 sys = ss(A, B, C, 0)      # Continuous
 
 bodeplot(tf(sys))
-current_poles = poles(sys)
+# current_poles = poles(sys)
 
 
 ϵ = 0.01;
 pp = 15;
-p = -2* [pp + ϵ pp - ϵ (pp / 4)];
+p = - [pp + ϵ ,  pp - ϵ ,  pp]
 observability(A, C)
 controllability(A, B)
 L = real(place(sys, p, :c));
 
 
-# L = place(A', C', 5*p, opt=:c) # error, let's use kalman
+Kp = place(sys, 5.0*p; opt=:o) 
+place(A', C', p) 
 R1 = diagm([0.01, 0.02, 0.03])
 R2 = diagm([0.005, 0.002])
 K = kalman(sys, R1, R2; direct=false)
 
-cont = observer_controller(sys, L, K; direct=false)
-
+cont = observer_controller(sys, L, Kp; direct=false)
+filter = observer_filter(sys, K)
 
 closedLoop = feedback(sys, cont)
 

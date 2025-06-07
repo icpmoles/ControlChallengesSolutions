@@ -1,16 +1,13 @@
 ---
-title: "Control Challenges: 01 Block With Friction"
+title: "01 Block With Friction"
 author: "Iacopo Moles"
 date: "6/2/2025"
-format:
-  html:
-    code-fold: true
 jupyter: julia-1.11
 execute:
   echo: true
 ---
 
-### Parametric Plots
+## State Space representation
 
 We can convert the set of ODE into a state space representation. The final bode plot of the block position is: @fig-bode
 
@@ -56,11 +53,13 @@ Numerically they are:
 #| label: fig-pzmap
 #| fig-cap: "Starting PZ map"
 #| 
-eigvals(A); # -20 , -1, 0  
-pzmap(tf(sys))
+display(eigvals(A)) # -20 , -1, 0  
+display(pzmap(tf(sys)))
 ```
 
 In @fig-pzmap we see that we start with all the pole in the left-half plane, which is good.
+
+## Pole Placement
 
 We can design a controller with pole placement.
 
@@ -76,8 +75,8 @@ L = real(place(sys, p, :c));
 For some reason pole placement doesn't work for the observer, I use a Kalman Filter with random fast values.
 
 ```{julia}
-R1 = diagm([0.01, 0.02, 0.03])
-R2 = diagm([0.005, 0.002])
+R1 = diagm([0.001, 0.002, 0.003])
+R2 = diagm([0.00005, 0.0002])
 K = kalman(sys, R1, R2; direct=false)
 cont = observer_controller(sys, L, K; direct=false)
 ```
@@ -101,6 +100,8 @@ Ti = 0;
 Td = L[2] / L[1];
 pid = DiscretePID(; K, Ts, Ti, Td);
 ```
+
+## Simulation
 
 We can simulate this with a motor that only outputs the position:
 
@@ -137,8 +138,8 @@ We can also simulate it in a SIMULINK-like environment:
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu") 
+fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu");
 simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
-unloadFMU(fmu)
-plot(simData, states=false)
+unloadFMU(fmu);
+plot(simData, states=false, timeEvents=false)
 ```
