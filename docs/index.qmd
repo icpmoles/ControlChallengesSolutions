@@ -1,11 +1,12 @@
 ---
-title: Notebooks
+title: "Control Challeges: Solutions"
 authors:
-  - name: Norah Jones
-    affiliation: The University
+  - name: Iacopo Moles
+    affiliation: Politecnico di Milano
     roles: writing
     corresponding: true
 bibliography: references.bib
+jupyter: julia-1.11
 ---
 
 ## Section

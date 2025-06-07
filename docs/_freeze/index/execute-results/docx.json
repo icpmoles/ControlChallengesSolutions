@@ -1,0 +1,11 @@
+{
+  "hash": "4ed01c322eef103b7436b993f9fbd795",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Control Challeges: Solutions\"\nauthors:\n  - name: Iacopo Moles\n    affiliation: Politecnico di Milano\n    roles: writing\n    corresponding: true\nbibliography: references.bib\njupyter: julia-1.11\n---\n\n## Section\nThis is a simple placeholder for the manuscript's main document [@knuth84].\n\n",
+    "supporting": [
+      "index_files\\figure-docx"
+    ],
+    "filters": []
+  }
+}

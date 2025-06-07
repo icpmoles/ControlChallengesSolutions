@@ -1,21 +1,27 @@
 project:
-  type: manuscript
+  type: book
 
-manuscript:
-  article: index.qmd
+book:
+  title: "Control Challenges: Solutions"
+  author: "Iacopo Moles"
+  date: "07/07/2025"
+  chapters:
+    - index.qmd
+    - solution_01_01.qmd
 
 format:
   html:
+    theme: 
+      light: zephyr
+      dark: superhero
     comments:
       hypothesis: true
   docx: default
-  jats: default
-
-  # (other formats)
-  # pdf: default
+  pdf: default
 
 execute:
   freeze: true
+  cache: true
 
 engines: ['julia']
 
