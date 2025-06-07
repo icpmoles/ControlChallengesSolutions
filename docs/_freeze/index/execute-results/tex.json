@@ -1,12 +1,11 @@
 {
-  "hash": "1b5e8a882f310667505bd0f9b148cb26",
+  "hash": "189c5d79031cd61cc8180f175e9373df",
   "result": {
     "engine": "jupyter",
     "markdown": "---\ntitle: \"Introduction\"\nbibliography: references.bib\njupyter: julia-1.11\n---\n\n## What is this?\n\nThis is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) \"Janismac\"\n\n",
     "supporting": [
-      "index_files"
+      "index_files\\figure-pdf"
     ],
-    "filters": [],
-    "includes": {}
+    "filters": []
   }
 }

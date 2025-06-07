@@ -1,0 +1,15 @@
+---
+title: "Control Example"
+---
+
+## Heading
+
+{{< control target="TutorialBlockWithFriction" >}}
+let Kp = 337;
+let Kd = 64;
+function controlFunction(block)
+{
+  return -( block.x * Kp + block.dx*Kd);
+}
+{{< /control >}}
+

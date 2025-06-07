@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Control Challenges: Solutions",
+    "section": "",
+    "text": "0.1 What is this?\nThis is a collection of write ups on how to solve the various problems presented by Github user “Janismac”.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "solution_01_01.html",
+    "href": "solution_01_01.html",
+    "title": "2  Block With Friction",
+    "section": "",
+    "text": "2.1 State Space representation\nWe can convert the set of ODE into a state space representation. The final bode plot of the block position is: Figure 2.1\nFigure 2.1: Starting Bode Plot\nIt has the shape we expect from a motor + friction. Slow pole for the mass + friction and a faster pole for the current & inductance.\nNumerically they are:\n3-element Vector{Float64}:\n -20.0\n  -1.0\n   0.0\n\n\n(a) Starting PZ map\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\nFigure 2.2\nIn Figure 2.2 we see that we start with all the pole in the left-half plane, which is good.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Block With Friction</span>"
+    ]
+  },
+  {
+    "objectID": "solution_01_01.html#pole-placement",
+    "href": "solution_01_01.html#pole-placement",
+    "title": "2  Block With Friction",
+    "section": "2.2 Pole Placement",
+    "text": "2.2 Pole Placement\nWe can design a controller with pole placement.\nFor some reason pole placement doesn’t work for the observer, I use a Kalman Filter with random fast values.\n\n\n(isobservable = true, ranks = [3, 3, 3], sigma_min = [0.05255163155979671, 1.0000000000000002, 1.0])\n\n\n(iscontrollable = true, ranks = [3, 3, 3], sigma_min = [18.82217025796643, 0.7247734159618929, 0.46815777001494974])\n\n\n\n┌ Warning: Max iterations reached\n\n└ @ ControlSystemsBase C:\\Users\\icpmoles\\.julia\\packages\\ControlSystemsBase\\IeuPW\\src\\synthesis.jl:310\n\n\n\n\nWe can check the effect of the new controller on the loop\n\n\nComplexF64[-150.09999999999997 + 0.0im, -149.89999999999995 + 0.0im, -7.500000000000134 + 0.0im, -29.979999999868912 + 0.0im, -30.020000000130636 + 0.0im, -37.50000000000044 + 0.0im]\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom what I understand we are interested in the dotted line in the bottom right. See how flat it is.\nWe can convert it to the standard PD gain form.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Block With Friction</span>"
+    ]
+  },
+  {
+    "objectID": "solution_01_01.html#simulation",
+    "href": "solution_01_01.html#simulation",
+    "title": "2  Block With Friction",
+    "section": "2.3 Simulation",
+    "text": "2.3 Simulation\nWe can simulate this with a motor that only outputs the position:\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFor more stats:\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWe can also simulate it in a SIMULINK-like environment:\n\n\n\nSimulating ME-FMU ...   0%|█                             |  ETA: N/A\n\nSimulating ME-FMU ... 100%|██████████████████████████████| Time: 0:00:12\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThere is a slight difference between the lsim simulation and the FMU simulation. I need to recheck some stuff.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Block With Friction</span>"
+    ]
+  }
+]

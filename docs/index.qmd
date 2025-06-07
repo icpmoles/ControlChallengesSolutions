@@ -1,13 +1,12 @@
 ---
-title: "Control Challeges: Solutions"
-authors:
-  - name: Iacopo Moles
-    affiliation: Politecnico di Milano
-    roles: writing
-    corresponding: true
-bibliography: references.bib
-jupyter: julia-1.11
+title: "Introduction"
+format: 
+  html: default
+  docx: default
+  pdf: default
 ---
 
-## Section
-This is a simple placeholder for the manuscript's main document [@knuth84].
+## What is this?
+
+This is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) "Janismac".
+

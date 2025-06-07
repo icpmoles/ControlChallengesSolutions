@@ -1,6 +1,9 @@
 ---
 title: "Block With Friction"
-date: "6/2/2025"
+format: 
+  html: default
+  docx: default
+  pdf: default
 jupyter: julia-1.11
 ---
 
@@ -63,14 +66,14 @@ We can design a controller with pole placement.
 For some reason pole placement doesn't work for the observer, I use a Kalman Filter with random fast values.
 
 ```{julia}
-print(observability(A, C)); #OK
-print(controllability(A, B)); #OK
+display(observability(A, C)); #OK
+display(controllability(A, B)); #OK
 ϵ = 0.01;
 pp = 15;
 p = -2* [pp + ϵ , pp - ϵ , (pp / 4)];
 L = real(place(sys, p, :c));
 
-poles_obs = p*5
+poles_obs = p*5.0
 K = place(1.0*A',1.0*C', poles_obs)'
 cont = observer_controller(sys, L, K; direct=false);
 ```
@@ -78,10 +81,11 @@ cont = observer_controller(sys, L, K; direct=false);
 We can check the effect of the new controller on the loop
 
 ```{julia}
-closedLoop = feedback(sys, cont)
-clpoles = poles(closedLoop)
+closedLoop = feedback(sys*cont)
+print(poles(closedLoop));
 setPlotScale("dB")
-bodeplot(closedLoop[1, 1], 0.1:40)
+display(bodeplot(closedLoop[1, 1], 0.1:40))
+display(pzmap(closedLoop))
 ```
 
 From what I understand we are interested in the dotted line in the bottom right. See how flat it is.
@@ -135,7 +139,14 @@ using FMI, DifferentialEquations
 fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu");
 simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
 unloadFMU(fmu);
-plot(simData, states=false, timeEvents=false)
+display(plot(simData, states=false, timeEvents=false))
 ```
 
 There is a slight difference between the `lsim` simulation and the FMU simulation. I need to recheck some stuff.
+
+{{< control target="TutorialBlockWithFriction" code="let Kp = 337;
+let Kd = 64;
+function controlFunction(block)
+{
+  return -( block.x * Kp + block.dx*Kd);
+}" >}}
