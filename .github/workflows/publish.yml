@@ -11,6 +11,10 @@ permissions:
     contents: write
     pages: write
 
+env:
+  QUARTO_VERSION: "1.7.29"
+  JULIA_VERSION: "1.11.5"
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -18,21 +22,36 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      
+      - name: Restore Dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: |
+           /opt/hostedtoolcache/julia/
+           /opt/quarto/
+           $HOME/bin
+
+          key: q${{ env.QUARTO_VERSION}}-j${{ env.JULIA_VERSION}}
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@9e48da27e184aa238fcb49f5db75469626d43adb
+        if: steps.cache-deps.outputs.cache-hit != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # To install LaTeX to build PDF book 
           tinytex: true 
           # uncomment below and fill to pin a version
-          version: "1.7.29"
+          version: ${{ env.QUARTO_VERSION}}
       
 
       # From https://github.com/julia-actions/setup-julia
       - name: Setup Julia
+        if: steps.cache-deps.outputs.cache-hit != 'true'
         uses: julia-actions/setup-julia@5c9647d97b78a5debe5164e9eec09d653d29bd71
+        with:
+          version: ${{ env.JULIA_VERSION}}
 
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
 
@@ -48,3 +67,15 @@ jobs:
           to: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+
+
+      - name: Save Dependencies
+        id: cache-dep-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+           /opt/hostedtoolcache/julia/
+           /opt/quarto/
+           $HOME/bin
+
+          key: ${{ steps.cache-deps.outputs.cache-primary-key }}
