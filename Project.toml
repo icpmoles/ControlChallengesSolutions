@@ -1,5 +1,4 @@
 [deps]
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
 ControlSystemsBase = "aaaaaaaa-a6ca-5380-bf3e-84a91bcd477e"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"

@@ -11,8 +11,8 @@ permissions:
     pages: write
 
 env:
-  QUARTO_VERSION: "1.7.29"
-  JULIA_VERSION: "1.11.5"
+  QUARTO_VERSION: '1.7.29'
+  JULIA_VERSION: '1.11.5'
 
 jobs:
   build-deploy:
@@ -31,7 +31,7 @@ jobs:
           # To install LaTeX to build PDF book 
           tinytex: true 
           # uncomment below and fill to pin a version
-          version: ${{ env.QUARTO_VERSION}}
+          version: ${{ env.QUARTO_VERSION }}
 
       - uses: actions/setup-python@v4
         with:
@@ -44,9 +44,11 @@ jobs:
 
       # From https://github.com/julia-actions/setup-julia
       - name: Setup Julia
+        if: steps.julia-cache.outputs.cache-hit != 'true'
         uses: julia-actions/setup-julia@5c9647d97b78a5debe5164e9eec09d653d29bd71
         with:
-          version: ${{ env.JULIA_VERSION}}
+          version: ${{ env.JULIA_VERSION }}
+
       - run: julia --project -e 'using Pkg; Pkg.instantiate()'
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
 
