@@ -2,7 +2,6 @@
 title: "Block With Friction"
 format: 
   html: default
-jupyter: julia-1.11
 ---
 
 ## State Space representation
