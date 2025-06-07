@@ -12,7 +12,7 @@ permissions:
 
 env:
   QUARTO_VERSION: "1.7.29"
-  JULIA_VERSION: "1.11.5"
+  JULIA_VERSION: "1.11"
 
 jobs:
   build-deploy:
