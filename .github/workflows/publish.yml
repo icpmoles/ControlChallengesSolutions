@@ -39,7 +39,7 @@ jobs:
         uses: julia-actions/setup-julia@5c9647d97b78a5debe5164e9eec09d653d29bd71
         with:
           version: ${{ env.JULIA_VERSION}}
-      - run: julia --project -e 'using Pkg; Pkg.instantiate()'
+      # - run: julia --project -e 'using Pkg; Pkg.instantiate()'
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
 
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
@@ -50,7 +50,7 @@ jobs:
           target: gh-pages
           GITHUB_EMAIL: 8940011+icpmoles@users.noreply.github.com
           GITHUB_USERNAME: icpmoles
-          render: false
+          render: true
           to: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
