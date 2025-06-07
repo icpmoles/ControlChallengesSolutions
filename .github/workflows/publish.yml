@@ -31,7 +31,6 @@ jobs:
            /opt/hostedtoolcache/julia/
            /opt/quarto/
            $HOME/bin
-
           key: q${{ env.QUARTO_VERSION}}-j${{ env.JULIA_VERSION}}
         
       - name: Set up Quarto
@@ -77,5 +76,4 @@ jobs:
            /opt/hostedtoolcache/julia/
            /opt/quarto/
            $HOME/bin
-
           key: ${{ steps.cache-deps.outputs.cache-primary-key }}
