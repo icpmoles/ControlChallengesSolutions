@@ -4,19 +4,9 @@
     "href": "index.html",
     "title": "Control Challenges: Solutions",
     "section": "",
-    "text": "0.1 Section\nThis is a simple placeholder for the manuscript’s main document (Knuth 1984).",
+    "text": "0.1 What is this?\nThis is a collection of write ups on how to solve the various problems presented by Github user “Janismac”.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Control Challeges: Solutions</span>"
-    ]
-  },
-  {
-    "objectID": "index.html#section",
-    "href": "index.html#section",
-    "title": "Control Challenges: Solutions",
-    "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Control Challeges: Solutions</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
@@ -34,7 +24,7 @@
     "href": "solution_01_01.html#pole-placement",
     "title": "2  Block With Friction",
     "section": "2.2 Pole Placement",
-    "text": "2.2 Pole Placement\nWe can design a controller with pole placement.\nFor some reason pole placement doesn’t work for the observer, I use a Kalman Filter with random fast values.\n\n\n(isobservable = true, ranks = [3, 3, 3], sigma_min = [0.05255163155979671, 1.0000000000000002, 1.0])(iscontrollable = true, ranks = [3, 3, 3], sigma_min = [18.82217025796643, 0.7247734159618929, 0.46815777001494974])\n\n\n\n┌ Warning: Max iterations reached\n\n└ @ ControlSystemsBase C:\\Users\\icpmoles\\.julia\\packages\\ControlSystemsBase\\IeuPW\\src\\synthesis.jl:310\n\n\n\n\nWe can check the effect of the new controller on the loop\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom what I understand we are interested in the dotted line in the bottom right. See how flat it is.\nWe can convert it to the standard PD gain form.",
+    "text": "2.2 Pole Placement\nWe can design a controller with pole placement.\nFor some reason pole placement doesn’t work for the observer, I use a Kalman Filter with random fast values.\n\n\n(isobservable = true, ranks = [3, 3, 3], sigma_min = [0.05255163155979671, 1.0000000000000002, 1.0])\n\n\n(iscontrollable = true, ranks = [3, 3, 3], sigma_min = [18.82217025796643, 0.7247734159618929, 0.46815777001494974])\n\n\n\n┌ Warning: Max iterations reached\n\n└ @ ControlSystemsBase C:\\Users\\icpmoles\\.julia\\packages\\ControlSystemsBase\\IeuPW\\src\\synthesis.jl:310\n\n\n\n\nWe can check the effect of the new controller on the loop\n\n\nComplexF64[-150.09999999999997 + 0.0im, -149.89999999999995 + 0.0im, -7.500000000000134 + 0.0im, -29.979999999868912 + 0.0im, -30.020000000130636 + 0.0im, -37.50000000000044 + 0.0im]\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom what I understand we are interested in the dotted line in the bottom right. See how flat it is.\nWe can convert it to the standard PD gain form.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Block With Friction</span>"
     ]
