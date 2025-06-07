@@ -2,6 +2,7 @@
 title: "Block With Friction"
 format: 
   html: default
+  pdf: default
 ---
 
 ## State Space representation
