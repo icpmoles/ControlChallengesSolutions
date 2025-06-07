@@ -12,7 +12,7 @@ permissions:
 
 env:
   QUARTO_VERSION: "1.7.29"
-  JULIA_VERSION: "1.11"
+  JULIA_VERSION: "1.11.5"
 
 jobs:
   build-deploy:
@@ -32,6 +32,11 @@ jobs:
           tinytex: true 
           # uncomment below and fill to pin a version
           version: ${{ env.QUARTO_VERSION}}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+      - run: pip install jupyter
 
       - name: Load Julia packages from cache
         id: julia-cache
@@ -54,7 +59,6 @@ jobs:
           GITHUB_EMAIL: 8940011+icpmoles@users.noreply.github.com
           GITHUB_USERNAME: icpmoles
           render: true
-          to: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
 
