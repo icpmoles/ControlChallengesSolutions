@@ -16,6 +16,9 @@ format:
       dark: superhero
     comments:
       hypothesis: true
+    include-in-header:
+      - text: |
+            <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
   docx: default
   pdf: default
 
