@@ -6,3 +6,23 @@ title: "Introduction"
 
 This is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) "Janismac".
 
+
+:::  {.control-TutorialBlockWithFriction}
+let Kp = 337;
+
+let Kd = 64;
+
+function controlFunction(block)
+
+{
+
+  return -( block.x * Kp + block.dx*Kd);
+
+}
+:::
+
+::: {.callout-tip}
+## Tip with Title
+
+This is an example of a callout with a title.
+:::
