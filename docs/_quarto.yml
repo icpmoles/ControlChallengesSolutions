@@ -48,10 +48,6 @@ format:
     papersize: a4
     pdf-engine: xelatex
     code-overflow: wrap
-    mainfont: "TeX Gyre Bonum"
-    monofont:	"Liberation Mono"
-    sansfont: "TeX Gyre Adventor"
-    mathfont: "TeX Gyre Schola"
 
 
 

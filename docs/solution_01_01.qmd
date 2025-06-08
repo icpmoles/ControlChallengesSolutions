@@ -27,12 +27,12 @@ dx_0 = 0.0 # starting velocity
 A = [0 1 0
     0 -μ 1
     0 0 -τ
-]*1.0;
+] * 1.0;
 B = [0
     0
-    τ]*1.0;
+    τ] * 1.0;
 C = [1 0 0
-    0 1 0]*1.0
+    0 1 0] * 1.0
 
 sys = ss(A, B, C, 0)      # Continuous
 
@@ -64,18 +64,18 @@ display(observability(A, C)); #OK
 display(controllability(A, B)); #OK
 ϵ = 0.01;
 pp = 15;
-p = -2* [pp + ϵ , pp - ϵ , (pp / 4)];
+p = -2 * [pp + ϵ, pp - ϵ, (pp / 4)];
 L = real(place(sys, p, :c));
 
-poles_obs = p*5.0
-K = place(1.0*A',1.0*C', poles_obs)'
+poles_obs = p * 5.0
+K = place(1.0 * A', 1.0 * C', poles_obs)';
 cont = observer_controller(sys, L, K; direct=false);
 ```
 
 We can check the effect of the new controller on the loop
 
 ```{julia}
-closedLoop = feedback(sys*cont)
+closedLoop = feedback(sys * cont)
 print(poles(closedLoop));
 setPlotScale("dB")
 display(bodeplot(closedLoop[1, 1], 0.1:40))
@@ -116,14 +116,19 @@ t = 0:Ts:Tf
 
 res = lsim(sysreal, ctrl, t)
 
-plot(res, plotu=true, plotx=true, ploty=false);ylabel!("u", sp=1);ylabel!("x", sp=2);ylabel!("v", sp=3);ylabel!("T", sp=4)
+plot(res, plotu=true, plotx=true, ploty=false);
+ylabel!("u", sp=1);
+ylabel!("x", sp=2);
+ylabel!("v", sp=3);
+ylabel!("T", sp=4);
 ```
 
 For more stats:
 
 ```{julia}
 si = stepinfo(res);
-plot(si);title!("Step Response")
+plot(si);
+title!("Step Response");
 ```
 
 We can also simulate it in a SIMULINK-like environment:
@@ -131,7 +136,7 @@ We can also simulate it in a SIMULINK-like environment:
 ```{julia}
 using FMI, DifferentialEquations
 fmu = loadFMU(abspath("../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
-simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
+simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"]);
 unloadFMU(fmu);
 plot(simData, states=false, timeEvents=false)
 ```
