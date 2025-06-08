@@ -1,21 +1,17 @@
 ---
 title: "Block With Friction"
-format: 
-  html: default
-  pdf: default
+subtitle: Position Control with friction. Using Pole Placement + PD.
 ---
 
 ## State Space representation
 
-We can convert the set of ODE into a state space representation. The final bode plot of the block position is: @fig-bode
+We can convert the set of ODE into a state space representation. The final bode plot of the block position is: 
 
 ```{julia}
 #| label: fig-bode
 #| fig-cap: "Starting Bode Plot"
 
-using DiscretePIDs, ControlSystems, Plots
-using Plots
-using LinearAlgebra
+using DiscretePIDs, ControlSystems, Plots, LinearAlgebra
 
 # System parameters
 Ts = 0.02 # sampling time
@@ -86,9 +82,9 @@ display(bodeplot(closedLoop[1, 1], 0.1:40))
 display(pzmap(closedLoop))
 ```
 
-From what I understand we are interested in the dotted line in the bottom right. See how flat it is.
+We can compare this to the open-loop response in @fig-bode. We can see that we achieve unitary gain throughout the whole low-frequency range.
 
-We can convert it to the standard PD gain form.
+We can convert the pole placement controller into the standard PD gain form.
 
 ```{julia}
 K = L[1];
@@ -137,7 +133,7 @@ using FMI, DifferentialEquations
 fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu");
 simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
 unloadFMU(fmu);
-display(plot(simData, states=false, timeEvents=false))
+plot(simData, states=false, timeEvents=false)
 ```
 
 There is a slight difference between the `lsim` simulation and the FMU simulation. I need to recheck some stuff.
