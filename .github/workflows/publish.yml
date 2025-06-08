@@ -33,10 +33,6 @@ jobs:
           # uncomment below and fill to pin a version
           version: ${{ env.QUARTO_VERSION }}
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-      - run: pip install jupyter
       - run: sudo apt-get install librsvg2-bin
 
       - name: Load Julia packages from cache
