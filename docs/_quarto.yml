@@ -14,16 +14,13 @@ book:
   repo-subdir: docs
   favicon: static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlChallengesSolutions/"
-  downloads: [pdf, docx]
-  sharing: [ facebook, linkedin, twitter]
+  downloads: [pdf, docx, ipynb]
+  sharing: [facebook, linkedin, twitter]
   open-graph: 
     image: static/header.png
   page-footer: 
-    left: "Powered by [Quarto](https://quarto.org/) & [Julia](https://julialang.org/)" 
-    right: 
-      - icon: github
-        href: https://github.com/icpmoles/ControlChallengesSolutions
-      
+    center: "Powered by [Quarto {{version}}](https://quarto.org/) & [Julia Programming Language](https://julialang.org/)" 
+   
   chapters:
     - index.qmd
     - solution_01_01.qmd
@@ -45,6 +42,8 @@ format:
             <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
   docx: default
   pdf: default
+  ipynb:
+    quarto-required: '>= 1.7.29'
 
 
 
@@ -58,7 +57,10 @@ engines: ['julia']
 
 authors:
   - name: Iacopo Moles
-    affiliation: Polytechnic of Milan
+    affiliation:
+    - name: Polytechnic University of Milan
+      url: http://www.polimi.it/en
+      country: Italy
     url: https://icpmol.es
     email: iacopo@icpmol.es
     degrees: BSc
