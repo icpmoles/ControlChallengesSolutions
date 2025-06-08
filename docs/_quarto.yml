@@ -12,6 +12,8 @@ book:
   repo-subdir: docs
   favicon: static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlChallengesSolutions/"
+  downloads: [pdf, docx]
+  sharing: [twitter, facebook]
   open-graph: 
     image: static/header.png
 
@@ -21,6 +23,7 @@ book:
 
 format:
   html:
+    respect-user-color-scheme: true
     toc: true
     theme: 
       light: zephyr
@@ -41,7 +44,6 @@ format:
 execute:
   freeze: true
   cache: true
-  echo: false
 
 
 engines: ['julia']
