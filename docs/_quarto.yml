@@ -43,7 +43,16 @@ format:
       - text: |
             <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
   docx: default
-  pdf: default
+  pdf:
+    documentclass: scrbook 
+    papersize: a4
+    pdf-engine: xelatex
+    code-overflow: wrap
+    mainfont: "TeX Gyre Bonum"
+    monofont:	"Liberation Mono"
+    sansfont: "TeX Gyre Adventor"
+    mathfont: "TeX Gyre Schola"
+
 
 
 
