@@ -14,7 +14,7 @@ book:
   repo-subdir: docs
   favicon: static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlChallengesSolutions/"
-  downloads: [pdf, docx, ipynb]
+  downloads: [pdf, docx]
   sharing: [facebook, linkedin, twitter]
   open-graph: 
     image: static/header.png
@@ -42,8 +42,7 @@ format:
             <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
   docx: default
   pdf: default
-  ipynb:
-    quarto-required: '>= 1.7.29'
+  ipynb: default
 
 
 
