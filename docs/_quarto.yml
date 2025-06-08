@@ -21,7 +21,7 @@ book:
   sharing: [facebook, linkedin, twitter]
   image: static/header.png
   page-footer: 
-    center: "Powered by [Quarto {{version}}](https://quarto.org/) & [Julia Programming Language](https://julialang.org/)" 
+    center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
    
   chapters:
     - index.qmd
