@@ -22,18 +22,14 @@ book:
     left: "Powered by [Quarto](https://quarto.org/) & [Julia](https://julialang.org/)" 
     right: 
       - icon: github
-        href: https://github.com/icpmoles
-      - icon: bluesky 
-        href: https://bsky.app/profile/did:plc:p3ew6lzatra44vqvb354whrp
-      - icon: person-lines-fill
-        href: https://icpmol.es/
+        href: https://github.com/icpmoles/ControlChallengesSolutions
+      
   chapters:
     - index.qmd
     - solution_01_01.qmd
 
 format:
   html:
-    lightbox: true
     respect-user-color-scheme: true
     toc: true
     theme: 
@@ -62,4 +58,7 @@ engines: ['julia']
 
 authors:
   - name: Iacopo Moles
-    affiliation: Politecnico di Milano
+    affiliation: Polytechnic of Milan
+    url: https://icpmol.es
+    email: iacopo@icpmol.es
+    degrees: BSc

@@ -1,7 +1,5 @@
 ---
 title: "Introduction"
-format: 
-  html: default
 ---
 
 ## What is this?

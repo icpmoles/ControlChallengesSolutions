@@ -130,7 +130,7 @@ We can also simulate it in a SIMULINK-like environment:
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(raw"G:\ControlChallengesSolutions\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu");
+fmu = loadFMU(abspath("../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
 simData = simulateME(fmu, (0.0, 5.0); recordValues=["blockOnSlope.x","blockOnSlope.xd","blockOnSlope.usat"]);
 unloadFMU(fmu);
 plot(simData, states=false, timeEvents=false)
