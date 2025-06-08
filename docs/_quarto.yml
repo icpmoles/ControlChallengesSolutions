@@ -13,10 +13,18 @@ book:
   favicon: static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlChallengesSolutions/"
   downloads: [pdf, docx]
-  sharing: [twitter, facebook]
+  sharing: [ facebook, linkedin, twitter]
   open-graph: 
     image: static/header.png
-
+  page-footer: 
+    left: "Powered by [Quarto](https://quarto.org/) & [Julia](https://julialang.org/)" 
+    right: 
+      - icon: github
+        href: https://github.com/icpmoles
+      - icon: bluesky 
+        href: https://bsky.app/profile/did:plc:p3ew6lzatra44vqvb354whrp
+      - icon: person-vcard
+        href: https://icpmol.es/
   chapters:
     - index.qmd
     - solution_01_01.qmd
