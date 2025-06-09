@@ -8,7 +8,7 @@ This is a collection of write ups on how to solve the various problems presented
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(abspath(raw"..\\modelica\\ControlChallenges\\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
+fmu = loadFMU(abspath("..\\modelica\\ControlChallenges\\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
 simData = simulateME(
     fmu, 
     (0.0, 5.0);
