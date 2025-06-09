@@ -33,8 +33,8 @@ jobs:
           # uncomment below and fill to pin a version
           version: ${{ env.QUARTO_VERSION }}
 
-      - run: sudo apt-get install --no-install-recommends librsvg2-bin 
-      - run: sudo apt-get install --no-install-recommends fontconfig fonts-stix fonts-lato tex-gyre fonts-cascadia-code
+      - run: sudo apt-get install --no-install-recommends librsvg2-bin fontconfig
+      - run: sudo apt-get install fonts-stix fonts-lato tex-gyre fonts-cascadia-code
       - name: Load Julia packages from cache
         id: julia-cache
         uses: julia-actions/cache@d10a6fd8f31b12404a54613ebad242900567f2b9     

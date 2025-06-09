@@ -62,9 +62,9 @@ For some reason pole placement doesn't work for the observer, I use a Kalman Fil
 ```{julia}
 observability(A, C).isobservable & controllability(A, B).iscontrollable; #OK
 
-ϵ = 0.01;
+ε = 0.01;
 pp = 15;
-poles_cont = -2.0 * [pp + ϵ, pp - ϵ, pp];
+poles_cont = -2.0 * [pp + ε, pp - ε, pp];
 L = real(place(sys, poles_cont, :c));
 
 poles_obs = poles_cont * 5.0;
@@ -136,8 +136,11 @@ We can also simulate it in a SIMULINK-like environment:
 ```{julia}
 using FMI, DifferentialEquations
 fmu = loadFMU(abspath("../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
-simData = simulateME(fmu, (0.0, 5.0);
-    recordValues=["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"]);
+simData = simulateME(
+    fmu, 
+    (0.0, 5.0);
+    recordValues=["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"],
+    showProgress = false);
 unloadFMU(fmu);
 plot(simData, states=false, timeEvents=false)
 ```
