@@ -1,8 +1,8 @@
 {
-  "hash": "d73cde8ba56d596a469e70a7a9e711f4",
+  "hash": "3b4e2bd34b3c15cd93e4a89dc8b1c720",
   "result": {
     "engine": "julia",
-    "markdown": "---\ntitle: \"Introduction\"\n---\n\n## What is this?\n\nThis is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) \"Janismac\".\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\npwd()\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\n\"G:\\\\ControlChallengesSolutions\\\\docs\"\n```\n:::\n:::\n\n\n\n",
+    "markdown": "---\ntitle: \"Introduction\"\n---\n\n## What is this?\n\nThis is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) \"Janismac\".\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\npwd()\nfmuPath = abspath(joinpath(@__DIR__,\n    \"..\",\n    \"modelica\",\n    \"ControlChallenges\",\n    \"ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu\"))\nisfile(fmuPath)\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\ntrue\n```\n:::\n:::\n\n\n\n",
     "supporting": [
       "index_files\\figure-html"
     ],
