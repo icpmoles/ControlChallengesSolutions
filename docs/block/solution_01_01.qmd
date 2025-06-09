@@ -63,7 +63,7 @@ pp = 15.0;
 poles_cont = -2.0 * [pp + ε, pp - ε, pp];
 L = real(place(sys, poles_cont, :c));
 
-poles_obs = poles_cont * 5.0;
+poles_obs = poles_cont * 10.0;
 K = place(1.0 * A', 1.0 * C', poles_obs)'
 cont = observer_controller(sys, L, K; direct=false);
 ```
