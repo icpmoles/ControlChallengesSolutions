@@ -22,6 +22,16 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       
+      - name: Install Software Dependencies
+        run: sudo apt-get install --no-install-recommends librsvg2-bin
+
+      - name: Install Fonts
+        run: |
+          sudo apt-get install  \
+            fonts-stix  \
+            fonts-inter  \
+            tex-gyre  \
+            fonts-cascadia-code 
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@9e48da27e184aa238fcb49f5db75469626d43adb
@@ -30,17 +40,6 @@ jobs:
         with:
           tinytex: true 
           version: ${{ env.QUARTO_VERSION }}
-
-      - name: Install Software Dependencies
-        run: sudo apt-get install --no-install-recommends librsvg2-bin
-
-      - name: Install Fonts
-        run: |
-          sudo apt-get install 
-            fonts-stix 
-            fonts-inter 
-            tex-gyre 
-            fonts-cascadia-code
 
       - name: Load Julia packages from cache
         id: julia-cache
