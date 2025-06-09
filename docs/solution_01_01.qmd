@@ -77,7 +77,7 @@ We can check the effect of the new controller on the loop
 closedLoop = feedback(sys * cont)
 print(poles(closedLoop));
 setPlotScale("dB")
-plot!(bodeplot(closedLoop[1, 1], 0.1:40), pzmap(closedLoop));
+plot!(bodeplot(closedLoop[1, 1], 0.1:40), pzmap(closedLoop))
 ```
 
 We can compare this to the open-loop response in @fig-bode. We can see that we achieve unitary gain throughout the whole low-frequency range.
