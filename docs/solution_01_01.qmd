@@ -35,7 +35,7 @@ C = [1 0 0
 
 sys = ss(A, B, C, 0.0)      # Continuous
 
-bodeplot(tf(sys))
+plot!(bodeplot(tf(sys)),pzmap(tf(sys)))
 ```
 
 It has the shape we expect from a motor + friction. Slow pole for the mass + friction and a faster pole for the current & inductance.
@@ -46,11 +46,10 @@ Numerically they are:
 #| label: fig-pzmap
 #| fig-cap: "Starting PZ map"
 #| 
-display(eigvals(A)) # -20 , -1, 0  
-display(pzmap(tf(sys)))
+display(eigvals(A))
 ```
 
-In @fig-pzmap we see that we start with all the pole in the left-half plane, which is good.
+We see that we start with all the pole in the left-half plane, which is good.
 
 ## Pole Placement
 
