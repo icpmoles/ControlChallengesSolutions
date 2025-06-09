@@ -28,18 +28,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # To install LaTeX to build PDF book 
           tinytex: true 
-          # uncomment below and fill to pin a version
           version: ${{ env.QUARTO_VERSION }}
 
-      - run: sudo apt-get install --no-install-recommends librsvg2-bin
-      - run: sudo apt-get install fonts-stix fonts-inter-variable tex-gyre fonts-cascadia-code
+      - name: Install Software Dependencies
+        run: sudo apt-get install --no-install-recommends librsvg2-bin
+
+      - name: Install Fonts
+        run: |
+          sudo apt-get install 
+            fonts-stix 
+            fonts-inter 
+            tex-gyre 
+            fonts-cascadia-code
+
       - name: Load Julia packages from cache
         id: julia-cache
         uses: julia-actions/cache@d10a6fd8f31b12404a54613ebad242900567f2b9     
 
-      # From https://github.com/julia-actions/setup-julia
       - name: Setup Julia
         if: steps.julia-cache.outputs.cache-hit != 'true'
         uses: julia-actions/setup-julia@5c9647d97b78a5debe5164e9eec09d653d29bd71
@@ -49,7 +55,6 @@ jobs:
       - run: julia --project -e 'using Pkg; Pkg.instantiate()'
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
 
-      # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages (and render) 
         uses: quarto-dev/quarto-actions/publish@9e48da27e184aa238fcb49f5db75469626d43adb
         with:
