@@ -8,4 +8,9 @@ This is a collection of write ups on how to solve the various problems presented
 
 ```{julia}
 pwd()
+abspath(joinpath(@__DIR__,
+    "..",
+    "modelica",
+    "ControlChallenges",
+    "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"))
 ```
