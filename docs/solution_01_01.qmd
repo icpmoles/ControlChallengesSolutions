@@ -97,7 +97,7 @@ pid = DiscretePID(; K, Ts, Ti, Td);
 We can simulate this with a motor that only outputs the position:
 
 ```{julia}
-sysreal = ss(A, B, [1.0 0.0 0.0], 0.0)
+sysreal = ss(A, B, [1 0 0], 0.0)
 ctrl = function (x, t)
     y = (sysreal.C*x)[] # measurement
     d = 0 * [1.0]        # disturbance
