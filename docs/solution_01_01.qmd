@@ -112,7 +112,6 @@ ctrl = function (x, t)
 end
 t = 0:Ts:Tf
 
-
 res = lsim(sysreal, ctrl, t)
 
 plot(res, plotu=true, plotx=true, ploty=false);
@@ -139,7 +138,6 @@ fmuPath = abspath(joinpath(@__DIR__,
     "modelica",
     "ControlChallenges",
     "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"))
-
 fmu = loadFMU(fmuPath);
 simData = simulateME(
     fmu,
