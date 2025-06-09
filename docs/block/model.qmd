@@ -2,7 +2,7 @@
 title: "The Damped Mass problem"
 ---
 
-## Modelling
+## Modeling
 
 $$
 \begin{cases}
