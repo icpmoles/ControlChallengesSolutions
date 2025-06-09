@@ -50,7 +50,7 @@ format:
     sansfont: TeXGyreAdventor
     monofont: Cascadia Code
     mathfont: STIXMath
-    mainfont: Lato
+    mainfont: Inter
 
 
 

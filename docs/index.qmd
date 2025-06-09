@@ -15,7 +15,7 @@ fmuPath = abspath(joinpath(@__DIR__,
     "..",
     "modelica",
     "ControlChallenges",
-    "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"))
+    "ControlChallenges.BlockOnSlope_Challenges.BlockOnSlope"))
 ```
 
 ```{julia}
