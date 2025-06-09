@@ -44,12 +44,13 @@ format:
             <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
   docx: default
   pdf:
-    documentclass: scrbook 
     papersize: a4
-    pdf-engine: xelatex
+    pdf-engine: lualatex 
     code-overflow: wrap
-
-
+    sansfont: TeXGyreAdventor
+    monofont: Cascadia Code
+    mathfont: STIXMath
+    mainfont: Lato
 
 
 

@@ -33,8 +33,8 @@ jobs:
           # uncomment below and fill to pin a version
           version: ${{ env.QUARTO_VERSION }}
 
-      - run: sudo apt-get install --no-install-recommends librsvg2-bin
-
+      - run: sudo apt-get install --no-install-recommends librsvg2-bin 
+      - run: sudo apt-get install --no-install-recommends fontconfig fonts-stix fonts-lato tex-gyre cascadia-code
       - name: Load Julia packages from cache
         id: julia-cache
         uses: julia-actions/cache@d10a6fd8f31b12404a54613ebad242900567f2b9     
@@ -48,7 +48,7 @@ jobs:
 
       - run: julia --project -e 'using Pkg; Pkg.instantiate()'
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
-      - run: sudo apt install fontconfig -y &&  fc-list
+      - run: fc-list
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages (and render) 
         uses: quarto-dev/quarto-actions/publish@9e48da27e184aa238fcb49f5db75469626d43adb
