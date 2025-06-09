@@ -24,8 +24,8 @@ dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant 
 
 # State Space Matrix
-A = [0 1 0
-    0 -μ 1
+A = [0 1.0 0
+    0 -μ 1.0
     0 0 -τ
 ] * 1.0;
 B = [0
@@ -135,7 +135,7 @@ We can also simulate it in a SIMULINK-like environment:
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(abspath("../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
+fmu = loadFMU(abspath(raw"..\modelica\ControlChallenges\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
 simData = simulateME(
     fmu, 
     (0.0, 5.0);
