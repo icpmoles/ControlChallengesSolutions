@@ -113,7 +113,7 @@ t = 0:Ts:Tf
 
 res = lsim(sysreal, ctrl, t)
 
-plot(res, plotu=true, plotx=true, ploty=false);
+plot(res, plotu=true, plotx=true, ploty=false)
 ylabel!("u", sp=1);
 ylabel!("x", sp=2);
 ylabel!("v", sp=3);
@@ -124,7 +124,7 @@ For more stats:
 
 ```{julia}
 si = stepinfo(res);
-plot(si);
+plot(si)
 title!("Step Response");
 ```
 

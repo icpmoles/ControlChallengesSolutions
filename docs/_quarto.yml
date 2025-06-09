@@ -49,7 +49,7 @@ format:
     code-overflow: wrap
     sansfont: TeXGyreAdventor
     monofont: Cascadia Code
-    mathfont: STIXMath
+    mathfont: LibertinusMath
     mainfont: Inter
 
 
