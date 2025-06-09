@@ -101,7 +101,7 @@ sysreal = ss(A, B, [1.0 0.0 0.0], 0.0)
 ctrl = function (x, t)
     y = (sysreal.C*x)[] # measurement
     d = 0 * [1.0]        # disturbance
-    r = 2 * (t >= 1) # reference
+    r = 2.0 * (t >= 1) # reference
     # u = pid(r, y) # control signal
     # u + d # Plant input is control signal + disturbance
     # u =1
