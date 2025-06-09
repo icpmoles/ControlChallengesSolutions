@@ -63,7 +63,7 @@ For some reason pole placement doesn't work for the observer, I use a Kalman Fil
 observability(A, C).isobservable & controllability(A, B).iscontrollable; #OK
 
 ε = 0.01;
-pp = 15;
+pp = 15.0;
 poles_cont = -2.0 * [pp + ε, pp - ε, pp];
 L = real(place(sys, poles_cont, :c));
 
@@ -98,7 +98,7 @@ pid = DiscretePID(; K, Ts, Ti, Td);
 We can simulate this with a motor that only outputs the position:
 
 ```{julia}
-sysreal = ss(A, B, [1 0 0], 0)
+sysreal = ss(A, B, [1.0 0.0 0.0], 0.0)
 ctrl = function (x, t)
     y = (sysreal.C*x)[] # measurement
     d = 0 * [1.0]        # disturbance
@@ -106,10 +106,10 @@ ctrl = function (x, t)
     # u = pid(r, y) # control signal
     # u + d # Plant input is control signal + disturbance
     # u =1
-    e = x - [r; 0; 0]
-    e[3] = 0 # torque not observable, just ignore it in the final feedback
+    e = x - [r; 0.0; 0.0]
+    e[3] = 0.0 # torque not observable, just ignore it in the final feedback
     u = -L * e + d
-    u = [maximum([-20 minimum([20 u])])]
+    u = [maximum([-20.0 minimum([20.0 u])])]
 end
 t = 0:Ts:Tf
 
