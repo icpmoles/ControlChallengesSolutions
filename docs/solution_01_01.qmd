@@ -24,14 +24,14 @@ dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant 
 
 # State Space Matrix
-A::Matrix{Float64} =    [0 1 0
-                        0 -μ 1
-                        0 0 -τ ];
-B::Matrix{Float64} =    [0
-                        0
-                        τ];
- C::Matrix{Float64} =   [1 0 0
-                        0 1 0];
+A = [0 1 0
+    0 -μ 1
+    0 0 -τ];
+B = [0
+    0
+    τ];
+C = [1 0 0
+    0 1 0];
 
 sys = ss(A, B, C, 0.0)      # Continuous
 
@@ -134,16 +134,16 @@ We can also simulate it in a SIMULINK-like environment:
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(joinpath(@__DIR__, 
-    "..", 
-    "modelica", 
+fmu = loadFMU(joinpath(@__DIR__,
+    "..",
+    "modelica",
     "ControlChallenges",
     "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
 simData = simulateME(
-    fmu, 
+    fmu,
     (0.0, 5.0);
     recordValues=["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"],
-    showProgress = false);
+    showProgress=false);
 unloadFMU(fmu);
 plot(simData, states=false, timeEvents=false)
 ```
