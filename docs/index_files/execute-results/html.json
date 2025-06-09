@@ -1,0 +1,12 @@
+{
+  "hash": "3ddc3864a5e768bf848e67f36e4839e9",
+  "result": {
+    "engine": "julia",
+    "markdown": "---\ntitle: \"Introduction\"\n---\n\n## What is this?\n\nThis is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) \"Janismac\".\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\nabspath(\"../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu\")\n\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\n\"G:\\\\ControlChallengesSolutions\\\\modelica\\\\ControlChallenges\\\\ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu\"\n```\n:::\n:::\n\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

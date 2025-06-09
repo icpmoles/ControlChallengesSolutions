@@ -134,7 +134,11 @@ We can also simulate it in a SIMULINK-like environment:
 
 ```{julia}
 using FMI, DifferentialEquations
-fmu = loadFMU(abspath(raw"../modelica/ControlChallenges/ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
+fmu = loadFMU(joinpath(@__DIR__, 
+    "..", 
+    "modelica", 
+    "ControlChallenges",
+    "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"));
 simData = simulateME(
     fmu, 
     (0.0, 5.0);
