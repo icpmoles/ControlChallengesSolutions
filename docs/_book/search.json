@@ -14,7 +14,7 @@
     "href": "block/model.html",
     "title": "The Damped Mass problem",
     "section": "",
-    "text": "\\[\n\\begin{cases}\n\\dot{x}=\\mathbf{A}x + \\mathbf{B}y \\\\\ny = \\mathbf{C}x + \\mathbf{D}y\n\\end{cases}\n\\]",
+    "text": "Modeling\n\\[\n\\begin{cases}\n\\dot{x}=\\mathbf{A}x + \\mathbf{B}y \\\\\ny = \\mathbf{C}x + \\mathbf{D}y\n\\end{cases}\n\\]",
     "crumbs": [
       "The Damped Mass problem"
     ]
