@@ -1,0 +1,11 @@
+---
+title: "The Damped Mass problem"
+---
+
+
+$$
+\begin{cases}
+\dot{x}=\mathbf{A}x + \mathbf{B}y \\
+y = \mathbf{C}x + \mathbf{D}y
+\end{cases}
+$$

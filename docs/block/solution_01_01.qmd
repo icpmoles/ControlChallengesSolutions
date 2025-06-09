@@ -134,7 +134,7 @@ We can also simulate it in a SIMULINK-like environment:
 ```{julia}
 using FMI, DifferentialEquations
 fmuPath = abspath(joinpath(@__DIR__,
-  "..",
+  "..","..",
   "modelica",
   "ControlChallenges",
   "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"))

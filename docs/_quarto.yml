@@ -25,7 +25,9 @@ book:
    
   chapters:
     - index.qmd
-    - solution_01_01.qmd
+    - part: block/model.qmd
+      chapters: 
+      - block/solution_01_01.qmd
 
 format:
   html:
