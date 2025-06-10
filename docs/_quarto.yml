@@ -23,7 +23,6 @@ book:
   image: static/header.png
   page-footer: 
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
-   
   chapters:
     - index.qmd
     - part: block/model.qmd
@@ -63,6 +62,26 @@ format:
       - modeling
       - simulation
       - tutorial
+      - FMU
+      - openmodelica
+      - julia
+      - ControlSystems.jl
+    include-in-header: 
+      text: |
+        \usepackage{fvextra}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+          commandchars=\\\{\},
+          breaklines, breaknonspaceingroup, breakanywhere
+        }
+    include-before-body:
+      text: |
+        \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+          showspaces = false,
+          showtabs = false,
+          breaksymbolleft={},
+          breaklines
+          % Note: setting commandchars=\\\{\} here will cause an error 
+        }
 
 
 
