@@ -19,5 +19,8 @@
     "julia.execution.inlineResultsForCellEvaluation": false,
     "julia.execution.saveOnEval": true,
     "julia.focusPlotNavigator": true,
-    "julia.inlayHints.static.enabled": true
+    "julia.inlayHints.static.enabled": true,
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/publish.yml"
+    ]
 }
