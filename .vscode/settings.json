@@ -10,5 +10,14 @@
         "editor.rulers": [92],
         "files.eol": "\n",
     },
-    "julia.NumThreads": 5
+    "julia.NumThreads": 5,
+    "julia.lint.disabledDirs": [
+        "misc", 
+        "docs",
+        "test"
+    ],
+    "julia.execution.inlineResultsForCellEvaluation": false,
+    "julia.execution.saveOnEval": true,
+    "julia.focusPlotNavigator": true,
+    "julia.inlayHints.static.enabled": true
 }
