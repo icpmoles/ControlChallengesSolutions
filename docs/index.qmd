@@ -2,7 +2,7 @@
 title: "Introduction"
 ---
 
-## What is this? {#sec-home}
+## Intro {#sec-home}
 
 This is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) "Janismac".
 

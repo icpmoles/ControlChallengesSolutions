@@ -3,8 +3,6 @@ project:
   preview:
     port: 4200
     browser: true
-  render:
-     - solution_*.qmd
 
 book:
   title: "Control Challenges: Solutions"
