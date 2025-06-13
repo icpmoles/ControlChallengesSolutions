@@ -23,9 +23,11 @@ book:
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
     - index.qmd
-    - part: block/model.qmd
+    - part: block_on_slope/model.qmd
       chapters: 
-      - block/solution_01_01.qmd
+      - block_on_slope/without_friction.qmd
+      - block_on_slope/with_friction.qmd
+      - block_on_slope/slope.qmd
 
 format:
   html:

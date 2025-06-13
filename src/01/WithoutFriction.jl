@@ -7,7 +7,7 @@ Ts = 0.02 # sampling time
 Tf = 2; #final simulation time
 g = 9.81 #gravity
 α = 0.0 # slope
-μ = 1.0 # friction coefficient
+μ = 0.0 # friction coefficient
 x_0 = -2.0 # starting position
 dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant
@@ -37,7 +37,7 @@ controllability(A, B)
 L = real(place(sys, p, :c));
 
 
-Kp = place(sys, 5.0*p; opt=:o)
+Kp = place(sys, 1.0*p; opt=:o)
 place(A', C', p)
 R1 = diagm([0.01, 0.02, 0.03])
 R2 = diagm([0.005, 0.002])
