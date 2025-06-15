@@ -7,6 +7,8 @@ project:
 book:
   title: "Control Challenges: Solutions"
   description: "Control Theory with just the right amount of academic rigor"
+  open-graph: 
+    image: static/header.png
   output-file: "Control_Challenges-solutions"
   author: "Iacopo Moles"
   repo-url: https://github.com/icpmoles/controlchallengessolutions
@@ -29,6 +31,7 @@ book:
 
 format:
   html:
+    canonical-url: true
     respect-user-color-scheme: true
     toc: true
     theme: 
