@@ -1,8 +1,11 @@
+
 using CCS: blockModel
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
 
-
 contSys = blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
+
+plot!(bodeplot(contSys[1,1]),pzmap(contSys))
+bodeplot(contSys)
 
 plot!(bodeplot(contSys[1,1]),pzmap(contSys))
 display(eigvals(contSys.A))
