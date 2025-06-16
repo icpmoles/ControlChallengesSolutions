@@ -31,6 +31,8 @@ book:
 
 format:
   html:
+    reference-location: margin
+    citation-location: margin
     respect-user-color-scheme: true
     toc: true
     theme: 

@@ -1,11 +1,36 @@
-
 using CCS: blockModel
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
 
 contSys = blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
 
-plot!(bodeplot(contSys[1,1]),pzmap(contSys))
+pzmap(contSys)
 bodeplot(contSys)
+
+
+plot!(bodeplot(contSys[1,1]),pzmap(contSys))
+display(eigvals(contSys.A))
+controllability(contSys.A,contSys.B).iscontrollable || error("System is not controllable")
+
+ε = 0.01;
+pp = 15.0;
+poles_cont = - [pp + ε, pp - ε, pp];
+L = real(place(contSys, poles_cont, :c));
+
+
+poles_obs = poles_cont * 10.0;
+K = place(contSys, poles_obs, :o)
+obs_controller = observer_controller(contSys, L, K; direct=false);
+fsf_controller = named_ss(obs_controller, u = [:ref_S, :ref_V], y = [:u]);
+closedLoop = feedback( contSys * fsf_controller);
+print(poles(closedLoop));
+setPlotScale("dB")
+plot!(bodeplot(closedLoop[1,1], 0.1:40), pzmap(closedLoop))
+
+
+using CCS: blockModel
+using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
+
+contSys = blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
 
 plot!(bodeplot(contSys[1,1]),pzmap(contSys))
 display(eigvals(contSys.A))
@@ -15,12 +40,12 @@ controllability(contSys.A,contSys.B).iscontrollable || error("System is not cont
 
 
 ε = 0.01;
-pp = 15.0;
+pp = 10.0;
 poles_cont = - [pp + ε, pp - ε, pp];
 L = real(place(contSys, poles_cont, :c));
 
 
-poles_obs = -poles_cont * 10.0;
+poles_obs = poles_cont * 10.0;
 K = place(contSys, poles_obs, :o)
 obs_controller = observer_controller(contSys, L, K; direct=false);
 fsf_controller = named_ss(obs_controller, u = [:ref_S, :ref_V], y = [:u])
@@ -43,7 +68,22 @@ K = L[1];
 Ti = 0;
 Td = L[2] / L[1];
 
-pid = DiscretePID(; K, Ts, Ti, Td);
+K, Ti, Td = parallel2standard(L[1], 0, L[2])
+vmax = 20.0;
+
+pid = DiscretePID(; K, Ts, Ti, Td, umax = vmax, umin=-vmax);
+
+onlyEncoder = blockModel.dsys(;g = 0, α = 0 , μ = 1, τ =20, y2 =  false)
+
+ctrl2 = function(x,t)
+    y = (onlyEncoder.C*x)[] # measurement
+    d = 0.0         # disturbance
+    r = 2.0*(t >= 0) # reference
+    u = pid(r, y) # control signal
+    u + d # Plant input is control signal + disturbance
+end
+res2 = lsim(onlyEncoder, ctrl2, t)
+plot(res2, plotu=true, plotx = true); ylabel!("u + d", sp=2)
 
 
 ctrl = function (x, t)
