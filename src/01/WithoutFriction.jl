@@ -13,15 +13,20 @@ dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant
 
 # State Space Matrix
-A = [0 1 0
+A = [
+    0 1 0
     0 -μ 1
     0 0 -τ
 ];
-B = [0
+B = [
     0
-    τ];
-C = [1.0 0 0
-    0 1 0];
+    0
+    τ
+];
+C = [
+    1.0 0 0
+    0 1 0
+];
 
 sys = ss(A, B, C, 0)      # Continuous
 
@@ -31,19 +36,19 @@ bodeplot(tf(sys))
 
 ϵ = 0.01;
 pp = 15;
-p = - [pp + ϵ ,  pp - ϵ ,  pp]
+p = - [pp + ϵ, pp - ϵ, pp]
 observability(A, C)
 controllability(A, B)
 L = real(place(sys, p, :c));
 
 
-Kp = place(sys, 1.0*p; opt=:o)
+Kp = place(sys, 1.0*p; opt = :o)
 place(A', C', p)
 R1 = diagm([0.01, 0.02, 0.03])
 R2 = diagm([0.005, 0.002])
-K = kalman(sys, R1, R2; direct=false)
+K = kalman(sys, R1, R2; direct = false)
 
-cont = observer_controller(sys, L, Kp; direct=false)
+cont = observer_controller(sys, L, Kp; direct = false)
 filter = observer_filter(sys, K)
 
 closedLoop = feedback(sys, cont)
@@ -51,7 +56,7 @@ closedLoop = feedback(sys, cont)
 clpoles = poles(closedLoop)
 setPlotScale("dB")
 
-gangoffourplot(sys, cont; minimal=true)
+gangoffourplot(sys, cont; minimal = true)
 
 
 bodeplot(closedLoop[1, 1], 0.1:40)
@@ -82,11 +87,11 @@ t = 0:Ts:Tf
 
 res = lsim(sysreal, ctrl, t)
 
-plot(res, plotu=true, plotx=true, ploty=false);
-ylabel!("u", sp=1);
-ylabel!("x", sp=2);
-ylabel!("v", sp=3);
-ylabel!("T", sp=4);
+plot(res, plotu = true, plotx = true, ploty = false);
+ylabel!("u", sp = 1);
+ylabel!("x", sp = 2);
+ylabel!("v", sp = 3);
+ylabel!("T", sp = 4);
 
 #  ylabel!(["u", "x","v","T"]);
 
