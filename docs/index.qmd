@@ -10,7 +10,7 @@ This is a collection of write ups on how to solve the various problems presented
 
 ### Software
 
-- A real OS like Linux or Windows.
+- A real OS like Linux or Windows. [^1]
 
 - The [Julia Programming Language](https://julialang.org/install/)
 
@@ -41,3 +41,5 @@ This is a collection of write ups on how to solve the various problems presented
     - Linear Algebra
 
     - Differential Equations
+
+[^1]: MacOs should be supported in theory but it's not tested.

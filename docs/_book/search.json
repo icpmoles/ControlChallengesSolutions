@@ -14,7 +14,7 @@
     "href": "index.html#what-do-i-need",
     "title": "Control Challenges: Solutions",
     "section": "0.2 What do I need?",
-    "text": "0.2 What do I need?\n\n0.2.1 Software\n\nA real OS like Linux or Windows.\nThe Julia Programming Language\n\nClone the repo\nActivate the package by running in your terminal:\njulia --project -e 'using Pkg; Pkg.instantiate()'\n\n(Nice to have) OpenModelica Editor\n\n\n\n0.2.2 Theory\n\nBasic Julia knowledge\nBasic JS knowledge\nControl Theory knowledge\n\nFrequency Based Control\nState Space Based control\n\nMisc knowledge:\n\nLinear Algebra\nDifferential Equations",
+    "text": "0.2 What do I need?\n\n0.2.1 Software\n\nA real OS like Linux or Windows. 1\nThe Julia Programming Language\n\nClone the repo\nActivate the package by running in your terminal:\njulia --project -e 'using Pkg; Pkg.instantiate()'\n\n(Nice to have) OpenModelica Editor\n\n1 MacOs should be supported in theory but it’s not tested.\n\n0.2.2 Theory\n\nBasic Julia knowledge\nBasic JS knowledge\nControl Theory knowledge\n\nFrequency Based Control\nState Space Based control\n\nMisc knowledge:\n\nLinear Algebra\nDifferential Equations",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
