@@ -28,7 +28,7 @@ book:
       - block_on_slope/without_friction.qmd
       - block_on_slope/with_friction.qmd
       - block_on_slope/slope.qmd
-    - performance.qmd
+    - appendix/performance.qmd
 
 format:
   html:
