@@ -18,21 +18,21 @@ cs = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 100//5)
 @benchmark all(i -> real(i)<=0,poles(cs))
 
 
-v = rand(ComplexF64,2)
+v = rand(ComplexF64,600).-2
 
 
 vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-0.5];
-@benchmark all(real(vbig).<=0.0)
-@benchmark all(<=(0.0),real(vbig))
-@benchmark all(i -> real(i)<=0.0,vbig)
+@benchmark all(real($vbig).<=0.0)
+@benchmark all(<=(0.0),real($vbig))
+@benchmark all(i -> real(i)<=0.0,$vbig)
 
-@benchmark for i in eachindex(v)
-                if real(v[i])>0.0
+@benchmark for i in eachindex($vbig)
+                if real($vbig[i])>0.0
                     return false
                 end
             end
 
-
+@benchmark ishw2($(Ref(vbig))[])
 
 function ishw2(v)
     for i in eachindex(v)
