@@ -31,8 +31,8 @@ jobs:
             fonts-inter-variable  \
             tex-gyre  \
             fonts-cascadia-code 
-          mkdir .local/share/fonts
-          cp docs/_3rdparty/JuliaMono/*.ttf .local/share/fonts
+          mkdir $HOME/.local/share/fonts
+          cp docs/_3rdparty/JuliaMono/*.ttf $HOME/.local/share/fonts
           fc-cache -f -v
 
         
