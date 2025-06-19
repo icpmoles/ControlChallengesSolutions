@@ -21,19 +21,21 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Install Fonts from TTF
+        run: |
+          cp docs/_3rdparty/JuliaMono/*.ttf /usr/share/fonts/
+          fc-cache -f -v
       
       - name: Install Software Dependencies
         run: sudo apt-get install --no-install-recommends librsvg2-bin texlive-fonts-extra fontconfig
 
-      - name: Install Fonts
+      - name: Install Fonts from repo
         run: |
           sudo apt-get install  \
             fonts-inter-variable  \
             tex-gyre  \
             fonts-cascadia-code 
-          mkdir $HOME/.local/share/fonts
-          cp docs/_3rdparty/JuliaMono/*.ttf $HOME/.local/share/fonts
-          fc-cache -f -v
 
         
       - name: Set up Quarto
