@@ -1,0 +1,41 @@
+---
+title: "Performance tricks"
+code-fold: show
+---
+
+## Hurwitz Check
+
+Create our nice model.
+Assume to have run the `poles` function and that you have a vector of eigenvalues. For simplicity I will create an arbitrary vector with the first 100 values in $-1$ and the last 100 values as random around $0$.
+
+```{julia}
+using BenchmarkTools
+
+vbig = [zeros(ComplexF64,100).-1 ; rand(ComplexF64,100).-0.5];
+
+vbig[[1,end]]
+```
+
+
+Then with a naive approach we check if all the  elements are in the LHP.
+
+
+```{julia}
+@benchmark all(real(vbig).<=0)
+```
+
+The *whole* vector of complex numbers gets converted to real and then we check row by row if it's non-positive. The whole check one by one results in a vector with booleans that gets checked one by one if it contains false values.
+
+
+```{julia}
+@benchmark all(<=(0),real(vbig))
+```
+
+
+For now we can skip the full evaluation of non-positivity: the first time it encounters a positive numbers it returns false. This improves the performance a little bit.
+
+```{julia}
+@benchmark all(i -> real(i)<=0,vbig)
+```
+
+This is the final form. Instead of converting into real the full vector it checks element by element if it's in the LHP. It returns false at the first failure.

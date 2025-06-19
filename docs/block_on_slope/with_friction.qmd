@@ -1,0 +1,147 @@
+---
+title: "Block With Friction"
+subtitle: Position Control with friction. Using Pole Placement + PD.
+---
+
+## Response Analysis
+
+```{julia}
+#| label: start-bode
+#| fig-cap: "Starting Bode Plot and PZ Map"
+
+using CCS: blockModel
+using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl, PlotThemes
+theme(:wong)
+contSys = blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
+
+plot!(bodeplot(contSys[1,1]),pzmap(contSys))
+```
+
+It has the shape we expect from a motor + friction. Slow pole for the mass + friction and a faster pole for the current & inductance.
+
+Numerically they are:
+
+```{julia}
+display(eigvals(contSys.A))
+```
+
+We see that we start with all the poles in the left-half plane, which is good.
+
+## Pole Placement
+
+We can design a controller with pole placement.
+
+For some reason pole placement doesn't work for the observer, I use a Kalman Filter with random fast values.
+
+```{julia}
+observability(contSys.A,contSys.C).isobservable || error("System is not observable")
+controllability(contSys.A,contSys.B).iscontrollable || error("System is not controllable")
+
+ε = 0.01;
+pp = 15.0;
+poles_cont = - [pp + ε, pp - ε, pp];
+L = real(place(contSys, poles_cont, :c));
+
+
+poles_obs = poles_cont * 10.0;
+K = place(contSys, poles_obs, :o)
+obs_controller = observer_controller(contSys, L, K; direct=false);
+fsf_controller = named_ss(obs_controller, u = [:ref_S, :ref_V], y = [:u]);
+```
+
+We can check the effect of the new controller on the loop
+
+```{julia}
+closedLoop = feedback( contSys * fsf_controller);
+print(poles(closedLoop));
+setPlotScale("dB")
+plot!(bodeplot(closedLoop[1,1], 0.1:40), pzmap(closedLoop))
+```
+
+We can compare this to the open-loop response in @start-bode. We can see that we achieve unitary gain throughout the whole low-frequency range.
+
+We can convert the pole placement controller into the standard PD gain form.
+
+```{julia}
+using DiscretePIDs
+Ts = 0.02 # sampling time
+Tf = 2.5; #final simulation time
+
+K = L[1];
+Ti = 0;
+Td = L[2] / L[1];
+
+pid = DiscretePID(; K, Ts, Ti, Td);
+```
+
+
+## Simulation
+
+We can simulate this with a motor that only outputs the position:
+
+```{julia}
+sysreal = ss(contSys.A, contSys.B, [1 0 0], 0.0)
+ctrl = function (x, t)
+    y = (sysreal.C*x)[] # measurement
+    d = 0 * [1.0]        # disturbance
+    r = 2.0 * (t >= 1) # reference
+    # u = pid(r, y) # control signal
+    # u + d # Plant input is control signal + disturbance
+    # u =1
+    e = x - [r; 0.0; 0.0]
+    e[3] = 0.0 # torque not observable, just ignore it in the final feedback
+    u = -L * e + d
+    u = [maximum([-20.0 minimum([20.0 u])])]
+end
+t = 0:Ts:Tf
+
+res = lsim(sysreal, ctrl, t)
+
+display(plot(res, 
+    plotu=true, 
+    plotx=true, 
+    ploty=false
+    ))
+ylabel!("u", sp=1);
+ylabel!("x", sp=2);
+ylabel!("v", sp=3);
+ylabel!("T", sp=4);
+```
+
+For more stats:
+
+```{julia}
+si = stepinfo(res);
+plot(si);title!("Step Response")
+```
+
+We can also simulate it in a SIMULINK-like environment:
+
+```{julia}
+#| freeze: true
+using FMI, DifferentialEquations
+fmuPath = abspath(joinpath(@__DIR__,
+  "..","..",
+  "modelica",
+  "ControlChallenges",
+  "ControlChallenges.BlockOnSlope_Challenges.Examples.WithFriction.fmu"))
+fmu = loadFMU(fmuPath);
+simData = simulateME(
+    fmu,
+    (0.0, 5.0);
+    recordValues=["blockOnSlope.x", 
+    "blockOnSlope.xd", 
+    "blockOnSlope.usat"],
+    showProgress=false);
+unloadFMU(fmu);
+plot(simData, states=false, timeEvents=false)
+```
+
+There is a slight difference between the `lsim` simulation and the FMU simulation. I need to recheck some stuff.
+
+{{< control target="TutorialBlockWithFriction" code="let Kp = 337;
+let Kd = 64;
+function controlFunction(block)
+{
+  return -( block.x * Kp + block.dx*Kd);
+}" >}}

@@ -1,7 +1,7 @@
 project:
   type: book
   preview:
-    port: 4200
+    port: 8200
     browser: true
 
 book:
@@ -25,12 +25,17 @@ book:
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
     - index.qmd
-    - part: block/model.qmd
+    - part: block_on_slope/model.qmd
       chapters: 
-      - block/solution_01_01.qmd
+      - block_on_slope/without_friction.qmd
+      - block_on_slope/with_friction.qmd
+      - block_on_slope/slope.qmd
+    - appendix/performance.qmd
 
 format:
   html:
+    reference-location: margin
+    citation-location: margin
     canonical-url: true
     respect-user-color-scheme: true
     toc: true
@@ -51,7 +56,7 @@ format:
     pdf-engine: lualatex 
     code-overflow: wrap
     sansfont: TeXGyreAdventor
-    monofont: Cascadia Code
+    monofont: JuliaMono
     mathfont: LibertinusMath
     mainfont: Inter
     metadata:
@@ -100,6 +105,7 @@ authors:
     - name: Polytechnic University of Milan
       url: http://www.polimi.it/en
       country: Italy
+      ror: 01nffqt88
     url: https://icpmol.es
     email: iacopo@icpmol.es
     degrees: BSc
