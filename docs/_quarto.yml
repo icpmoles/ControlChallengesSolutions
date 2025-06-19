@@ -53,7 +53,7 @@ format:
     pdf-engine: lualatex 
     code-overflow: wrap
     sansfont: TeXGyreAdventor
-    monofont: Cascadia Code
+    monofont: JuliaMono
     mathfont: LibertinusMath
     mainfont: Inter
     metadata:
