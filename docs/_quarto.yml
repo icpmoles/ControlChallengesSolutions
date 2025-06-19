@@ -1,7 +1,7 @@
 project:
   type: book
   preview:
-    port: 4200
+    port: 8200
     browser: true
 
 book:
@@ -28,6 +28,7 @@ book:
       - block_on_slope/without_friction.qmd
       - block_on_slope/with_friction.qmd
       - block_on_slope/slope.qmd
+    - performance.qmd
 
 format:
   html:
