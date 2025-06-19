@@ -13,26 +13,19 @@ dx_0 = 0.0 # starting velocity
 τ = 20.0 # torque constant
 
 # State Space Matrix
-A = [
-    0 1 0
-    0 -μ 1
-    0 0 -τ
-];
-B = [
-    0
-    0
-    τ
-];
-C = [
-    1.0 0 0
-    0 1 0
-];
+A = Float64[0 1 0
+            0 -μ 1
+            0 0 -τ];
+B = Float64[0
+            0
+            τ];
+C = Float64[1 0 0
+            0 1 0];
 
-sys = ss(A, B, C, 0)      # Continuous
+sys = ss(A, B, C, 0.0)      # Continuous
 
 bodeplot(tf(sys))
 # current_poles = poles(sys)
-
 
 ϵ = 0.01;
 pp = 15;
@@ -40,7 +33,6 @@ p = - [pp + ϵ, pp - ϵ, pp]
 observability(A, C)
 controllability(A, B)
 L = real(place(sys, p, :c));
-
 
 Kp = place(sys, 5.0*p; opt = :o)
 place(A', C', p)
@@ -58,20 +50,18 @@ setPlotScale("dB")
 
 gangoffourplot(sys, cont; minimal = true)
 
-
 bodeplot(closedLoop[1, 1], 0.1:40)
 
 K = L[1]
 Ti = 0;
 Td = L[2] / L[1]
 
-
 pid = DiscretePID(; K, Ts, Ti, Td)
 
 sysreal = ss(A, B, [1 0 0], 0)
 
 ctrl = function (x, t)
-    y = (sysreal.C*x)[] # measurement
+    y = (sysreal.C * x)[] # measurement
     d = 0 * [1.0]        # disturbance
     r = 2 * (t >= 0) # reference
     # u = pid(r, y) # control signal
@@ -83,7 +73,6 @@ ctrl = function (x, t)
     u = [maximum([-20 minimum([20 u])])]
 end
 t = 0:Ts:Tf
-
 
 res = lsim(sysreal, ctrl, t)
 

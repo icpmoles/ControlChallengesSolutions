@@ -19,11 +19,10 @@ fmi2SetReal(c, "Ktwo", 64.0)
 getValue(c, params)
 fmi2ExitInitializationMode(c)
 
-
 simData = simulateME(
     c,
     (tStart, tStop);
-    recordValues = ["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"],
+    recordValues = ["blockOnSlope.x", "blockOnSlope.xd", "blockOnSlope.usat"]
 );
 plot(simData, states = true, timeEvents = false)
 # p = plot(simData, series_keyword = 5)
