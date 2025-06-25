@@ -2,6 +2,9 @@ using CCS: blockModel
 using ControlSystems
 using BenchmarkTools
 
+
+##
+
 cs = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 100//5)
 
 
@@ -20,8 +23,14 @@ cs = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 100//5)
 
 v = rand(ComplexF64,600).-2
 
+vbighw = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-1.5];
 
 vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-0.5];
+
+@benchmark real($vbig)
+@benchmark real($vbig).<=0.0
+
+
 @benchmark all(real($vbig).<=0.0)
 @benchmark all(<=(0.0),real($vbig))
 @benchmark all(i -> real(i)<=0.0,$vbig)
@@ -32,9 +41,9 @@ vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-0.5];
                 end
             end
 
-@benchmark ishw2($(Ref(vbig))[])
+@benchmark isHurwitz($(Ref(vbig))[])
 
-function ishw2(v)
+function isHurwitz(v)
     for i in eachindex(v)
         if real(v[i])>0.0
             return false
@@ -46,3 +55,8 @@ end
 @code_llvm all(real(vbig).<=0)
 @code_llvm all(<=(0),real(vbig))
 @code_llvm all(i -> real(i)<=0.0,vbig)
+
+
+
+@benchmark mapreduce(i->real(i)<=0.0, &, $vbig)
+mapreduce(i->real(i)<=0.0, &, vbighw)
