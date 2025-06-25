@@ -469,7 +469,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#hurwitz-check" id="toc-hurwitz-check" class="nav-link active" data-scroll-target="#hurwitz-check"><span class="header-section-number">A.1</span> Hurwitz Check</a></li>
+  <li><a href="#hurwitz-check" id="toc-hurwitz-check" class="nav-link active" data-scroll-target="#hurwitz-check"><span class="header-section-number">A.1</span> Hurwitz Check</a>
+  <ul class="collapse">
+  <li><a href="#for-loop" id="toc-for-loop" class="nav-link" data-scroll-target="#for-loop"><span class="header-section-number">A.1.1</span> <code>for</code> loop</a></li>
+  <li><a href="#all" id="toc-all" class="nav-link" data-scroll-target="#all"><span class="header-section-number">A.1.2</span> <code>all()</code></a></li>
+  <li><a href="#mapreduce" id="toc-mapreduce" class="nav-link" data-scroll-target="#mapreduce"><span class="header-section-number">A.1.3</span> <code>mapreduce()</code></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -525,76 +530,141 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>2-element Vector{ComplexF64}:
-                -1.0 + 0.0im
- -0.4331044312441319 + 0.2962239553125152im</code></pre>
+                 -1.0 + 0.0im
+ -0.20895541504670545 + 0.472586989973956im</code></pre>
 </div>
 </div>
-<p>Then with a naive approach we check if all the elements are in the LHP.</p>
+<section id="for-loop" class="level3" data-number="A.1.1">
+<h3 data-number="A.1.1" class="anchored" data-anchor-id="for-loop"><span class="header-section-number">A.1.1</span> <code>for</code> loop</h3>
+<p>With a naive approach we check if all the elements are in the LHP: make a function that iterates and returns false if it hits a pole with positive real part.</p>
 <div id="4" class="cell" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(<span class="fu">real</span>(vbig)<span class="op">.&lt;=</span><span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">isHurwitz</span>(v)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fu">eachindex</span>(v)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="fu">real</span>(v[i])<span class="op">&gt;</span><span class="fl">0.0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="cn">false</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">true</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">isHurwitz</span>(<span class="op">$</span>(<span class="fu">Ref</span>(vbig))[])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ansi-escaped-output">
-<pre>BenchmarkTools.Trial: 10000 samples with 226 evaluations per sample.
- Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">323.451 ns</span> … <span class="ansi-magenta-fg">71.935 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span> 0.00% … 98.29%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">361.947 ns              </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span> 0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">582.819 ns</span> ± <span class="ansi-green-fg"> 1.713 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>27.61% ± 10.74%
+<pre>BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">50.557 ns</span> … <span class="ansi-magenta-fg">389.564 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">53.698 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">56.542 ns</span> ± <span class="ansi-green-fg"> 13.874 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.00% ± 0.00%
 
-  <span class="ansi-blue-fg">█</span>▃<span class="ansi-green-fg"> </span>▂▁▂▂                                                      ▁
-  <span class="ansi-blue-fg">█</span>█<span class="ansi-green-fg">█</span>█████▆▆▅▅▅▅▄▄▅▃▄▃▃▁▃▁▁▃▁▃▁▃▁▁▁▃▁▁▁▁▁▃▁▁▁▁▁▁▁▁▃▅▄▁▁▅▅▄▄▃▃▄ █
-  323 ns<span class="ansi-bright-black-fg">        </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       7.3 μs <span class="ansi-bold">&lt;</span>
-
- Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">1.78 KiB</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">6</span>.</pre>
-</div>
-</div>
-</div>
-<p>The <em>whole</em> vector of complex numbers gets converted to real and then we check row by row if it’s non-positive. The whole check one by one results in a vector with booleans that gets checked one by one if it contains false values.</p>
-<div id="6" class="cell" data-execution_count="1">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(<span class="op">&lt;=</span>(<span class="fl">0</span>),<span class="fu">real</span>(vbig))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<div class="ansi-escaped-output">
-<pre>BenchmarkTools.Trial: 10000 samples with 200 evaluations per sample.
- Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">395.000 ns</span> … <span class="ansi-magenta-fg">102.246 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span> 0.00% … 99.04%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">457.500 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span> 0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">667.069 ns</span> ± <span class="ansi-green-fg">  1.728 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>15.54% ±  9.07%
-
-  █<span class="ansi-blue-fg">▅</span>▁<span class="ansi-green-fg"> </span>▃▄▃▁                                                      ▁
-  █<span class="ansi-blue-fg">█</span>█<span class="ansi-green-fg">▇</span>█████▇▇▆▆▅▆▆▄▄▅▄▃▄▁▄▃▃▄▄▁▃▃▁▁▁▃▃▃▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃ █
-  395 ns<span class="ansi-bright-black-fg">        </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>          7 μs <span class="ansi-bold">&lt;</span>
-
- Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">1.62 KiB</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">2</span>.</pre>
-</div>
-</div>
-</div>
-<p>For now we can skip the full evaluation of non-positivity: the first time it encounters a positive numbers it returns false. This improves the performance a little bit.</p>
-<div id="8" class="cell" data-execution_count="1">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(i <span class="op">-&gt;</span> <span class="fu">real</span>(i)<span class="op">&lt;=</span><span class="fl">0</span>,vbig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<div class="ansi-escaped-output">
-<pre>BenchmarkTools.Trial: 10000 samples with 328 evaluations per sample.
- Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">257.012 ns</span> … <span class="ansi-magenta-fg"> 1.215 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">270.122 ns              </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">279.606 ns</span> ± <span class="ansi-green-fg">55.243 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.00% ± 0.00%
-
-   █<span class="ansi-blue-fg">▃</span>▁<span class="ansi-green-fg"> </span>                                                         
-  ▆█<span class="ansi-blue-fg">█</span>█<span class="ansi-green-fg">▇</span>▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▁▂▂▂▂▂▂▂▁▂▂▂▂▁▁▂▂▁▂▂▂▁▂▂▂▁▁▂▁▂▂▂▂▂▂▂▂ ▂
-  257 ns<span class="ansi-bright-black-fg">          Histogram: frequency by time</span>          603 ns <span class="ansi-bold">&lt;</span>
+   ▂█<span class="ansi-blue-fg">▇</span>▃<span class="ansi-green-fg">▃</span>▂  ▁                                                 ▂ ▂
+  ▆██<span class="ansi-blue-fg">█</span>█<span class="ansi-green-fg">█</span>██▇█▅▇▇▅▅▅▆▅▄▇▅▅▅▆▄▅▄▄▅▁▄▅▄▁▁▄▃▃▄▄▅▃▅▄▄▄▁▁▁▁▃▁▃▅▄▄▃▁▄█ █
+  50.6 ns<span class="ansi-bright-black-fg">       </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       121 ns <span class="ansi-bold">&lt;</span>
 
  Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0 bytes</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0</span>.</pre>
 </div>
 </div>
 </div>
-<p>This is the final form. Instead of converting into real the full vector it checks element by element if it’s in the LHP. It returns false at the first failure.</p>
+<p>We have our baseline. We can probably squeeze out some more performance but I’m still a Julia noob.</p>
+</section>
+<section id="all" class="level3" data-number="A.1.2">
+<h3 data-number="A.1.2" class="anchored" data-anchor-id="all"><span class="header-section-number">A.1.2</span> <code>all()</code></h3>
+<p>Let’s try using some of the built-in declarative functions:</p>
+<div id="6" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(<span class="fu">real</span>(<span class="op">$</span>vbig)<span class="op">.&lt;=</span><span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ansi-escaped-output">
+<pre>BenchmarkTools.Trial: 10000 samples with 755 evaluations per sample.
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">179.205 ns</span> … <span class="ansi-magenta-fg"> 26.772 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span> 0.00% … 98.51%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">252.848 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span> 0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">422.784 ns</span> ± <span class="ansi-green-fg">879.189 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>32.07% ± 16.25%
+
+  ▇<span class="ansi-blue-fg">█</span>▄▁<span class="ansi-green-fg"> </span> ▁▄▁                                                     ▂
+  █<span class="ansi-blue-fg">█</span>██<span class="ansi-green-fg">█</span>▇███▇▇▆▆▆▆▆▄▄▄▃▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▁▁▁▁▃▁▁▁▃▃▄▆▆▇▆▇▇▇██▆ █
+  179 ns<span class="ansi-bright-black-fg">        </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       4.19 μs <span class="ansi-bold">&lt;</span>
+
+ Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">1.75 KiB</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">5</span>.</pre>
+</div>
+</div>
+</div>
+<p>Simple <code>all()</code>, when given a tuple it checks if all the values are <code>True</code>, otherwise it stops when it encounters the first <code>False</code>.</p>
+<p>We can see that it’s a tad slower. This is because it’s creating a new vector with just the real parts, then it’s creating a new vector with only the boolean results and then it’s checking if there are any False results.</p>
+<p>This results in a lot of allocations and wasted resources.</p>
+<div id="8" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(<span class="op">&lt;=</span>(<span class="fl">0.0</span>),<span class="fu">real</span>(<span class="op">$</span>vbig))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ansi-escaped-output">
+<pre>BenchmarkTools.Trial: 10000 samples with 776 evaluations per sample.
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">156.314 ns</span> … <span class="ansi-magenta-fg"> 27.794 μs</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span> 0.00% … 98.27%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">218.814 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span> 0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">343.515 ns</span> ± <span class="ansi-green-fg">647.150 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>23.74% ± 15.37%
+
+  ▄█<span class="ansi-blue-fg">▆</span>▃▂<span class="ansi-green-fg">▁</span>▁    ▃▁▁▁▁                                              ▁
+  ██<span class="ansi-blue-fg">█</span>██<span class="ansi-green-fg">█</span>██▇▇▆█████▇▆▆▅▅▅▄▃▄▄▅▄▄▄▁▅▃▃▁▁▁▁▁▄▃▁▁▁▁▁▁▁▃▁▄▆▇▇███▆▅▅▅ █
+  156 ns<span class="ansi-bright-black-fg">        </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       2.58 μs <span class="ansi-bold">&lt;</span>
+
+ Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">1.62 KiB</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">2</span>.</pre>
+</div>
+</div>
+</div>
+<p>A smarter way is to skip on of the allocations by creating the vector of real parts and then checking row by row if the non-positivity check fails.</p>
+<div id="10" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">all</span>(i <span class="op">-&gt;</span> <span class="fu">real</span>(i)<span class="op">&lt;=</span><span class="fl">0.0</span>,<span class="op">$</span>vbig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ansi-escaped-output">
+<pre>BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">49.139 ns</span> … <span class="ansi-magenta-fg">826.545 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">51.165 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">55.618 ns</span> ± <span class="ansi-green-fg"> 22.280 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.00% ± 0.00%
+
+  ▆<span class="ansi-blue-fg">█</span>▅▃<span class="ansi-green-fg">▂</span>▁ ▁                                ▁▂                   ▁
+  █<span class="ansi-blue-fg">█</span>██<span class="ansi-green-fg">█</span>█▇█▇▇▅▄▆▅▆▇▅▃▆▅▅▄▅▆▄▅▄▅▄▄▄▄▄▃▃▅▅▃▆▆██▇▅▅▄▅▄▄▅▅▄▅▄▅▄▃▁▁▅ █
+  49.1 ns<span class="ansi-bright-black-fg">       </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       145 ns <span class="ansi-bold">&lt;</span>
+
+ Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0 bytes</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0</span>.</pre>
+</div>
+</div>
+</div>
+<p>We can do better: Instead of converting into real the full vector it checks element by element if it’s in the LHP. It returns false at the first failure. We finally have a comparable result to the benchmark function but in a more compact way.</p>
+<p>Is it cleaner? That’s subjective.</p>
+</section>
+<section id="mapreduce" class="level3" data-number="A.1.3">
+<h3 data-number="A.1.3" class="anchored" data-anchor-id="mapreduce"><span class="header-section-number">A.1.3</span> <code>mapreduce()</code></h3>
+<p>Finally we try the MapReduce approach. This allows a better utilization of your processor without the necessity of learning parallel programming.</p>
+<div id="12" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">mapreduce</span>(<span class="fu">i-&gt;real</span>(i)<span class="op">&lt;=</span><span class="fl">0.0</span>, <span class="op">&amp;</span>, <span class="op">$</span>vbig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ansi-escaped-output">
+<pre>BenchmarkTools.Trial: 10000 samples with 990 evaluations per sample.
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">43.737 ns</span> … <span class="ansi-magenta-fg">747.172 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">44.343 ns               </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">48.952 ns</span> ± <span class="ansi-green-fg"> 20.482 ns</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.00% ± 0.00%
+
+  <span class="ansi-blue-fg">█</span>▂▃▁<span class="ansi-green-fg"> </span>                                 ▁                      ▁
+  <span class="ansi-blue-fg">█</span>███<span class="ansi-green-fg">█</span>▆▆▆█▆▅▅▅█▅▇▄█▅▆▅▆▆▄▇▆▄█▄▅▇▇▄▄▆▅▅▆█▇▄▅▄▆▄▄▆▄▅▅▄▄▃▄▁▅▆▄▅▄ █
+  43.7 ns<span class="ansi-bright-black-fg">       </span><span class="ansi-bright-black-fg">Histogram: </span><span class="ansi-bright-black-fg ansi-bold">log(</span><span class="ansi-bright-black-fg">frequency</span><span class="ansi-bright-black-fg ansi-bold">)</span><span class="ansi-bright-black-fg"> by time</span>       131 ns <span class="ansi-bold">&lt;</span>
+
+ Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0 bytes</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">0</span>.</pre>
+</div>
+</div>
+</div>
+<p>We squeeze the last bit of performance and beat the initial benchmark, not by much but still appreciable.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
