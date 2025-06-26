@@ -634,11 +634,11 @@ Position Control with friction. Using Pole Placement + PD.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{using} \BuiltInTok{CCS}\NormalTok{: blockModel}
-\ImportTok{using} \BuiltInTok{ControlSystems}\NormalTok{, }\BuiltInTok{Plots}\NormalTok{, }\BuiltInTok{LinearAlgebra}\NormalTok{, }\BuiltInTok{RobustAndOptimalControl}\NormalTok{, }\BuiltInTok{PlotThemes}
-\FunctionTok{theme}\NormalTok{(}\OperatorTok{:}\NormalTok{wong)}
-\NormalTok{contSys }\OperatorTok{=}\NormalTok{ blockModel.}\FunctionTok{csys}\NormalTok{(;g }\OperatorTok{=} \FloatTok{0}\NormalTok{, α }\OperatorTok{=} \FloatTok{0}\NormalTok{ , μ }\OperatorTok{=} \FloatTok{1}\NormalTok{, τ }\OperatorTok{=}\FloatTok{20}\NormalTok{)}
+\ImportTok{using} \BuiltInTok{CCS}
+\ImportTok{using} \BuiltInTok{ControlSystems}\NormalTok{, }\BuiltInTok{Plots}\NormalTok{, }\BuiltInTok{LinearAlgebra}\NormalTok{, }\BuiltInTok{RobustAndOptimalControl}
+\NormalTok{CCS.}\FunctionTok{setupEnv}\NormalTok{()}
 
+\NormalTok{contSys }\OperatorTok{=}\NormalTok{ CCS.blockModel.}\FunctionTok{csys}\NormalTok{(;g }\OperatorTok{=} \FloatTok{0}\NormalTok{, α }\OperatorTok{=} \FloatTok{0}\NormalTok{ , μ }\OperatorTok{=} \FloatTok{1}\NormalTok{, τ }\OperatorTok{=}\FloatTok{20}\NormalTok{)}
 \FunctionTok{plot!}\NormalTok{(}\FunctionTok{bodeplot}\NormalTok{(contSys[}\FloatTok{1}\NormalTok{,}\FloatTok{1}\NormalTok{]),}\FunctionTok{pzmap}\NormalTok{(contSys))}
 \end{Highlighting}
 \end{Shaded}
@@ -824,11 +824,11 @@ Position Control with friction. Using Pole Placement + PD.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{using} \BuiltInTok{CCS}\NormalTok{: blockModel}
+\ImportTok{using} \BuiltInTok{CCS}
 \ImportTok{using} \BuiltInTok{ControlSystems}\NormalTok{, }\BuiltInTok{Plots}\NormalTok{, }\BuiltInTok{LinearAlgebra}\NormalTok{, }\BuiltInTok{RobustAndOptimalControl}
+\NormalTok{CCS.}\FunctionTok{setupEnv}\NormalTok{()}
 
-\NormalTok{contSys }\OperatorTok{=}\NormalTok{ blockModel.}\FunctionTok{csys}\NormalTok{(;g }\OperatorTok{=} \FloatTok{0}\NormalTok{, α }\OperatorTok{=} \FloatTok{0}\NormalTok{ , μ }\OperatorTok{=} \FloatTok{1}\NormalTok{, τ }\OperatorTok{=}\FloatTok{20}\NormalTok{)}
-
+\NormalTok{contSys }\OperatorTok{=}\NormalTok{ CCS.blockModel.}\FunctionTok{csys}\NormalTok{(;g }\OperatorTok{=} \FloatTok{0}\NormalTok{, α }\OperatorTok{=} \FloatTok{0}\NormalTok{ , μ }\OperatorTok{=} \FloatTok{1}\NormalTok{, τ }\OperatorTok{=}\FloatTok{20}\NormalTok{)}
 \FunctionTok{plot!}\NormalTok{(}\FunctionTok{bodeplot}\NormalTok{(contSys[}\FloatTok{1}\NormalTok{,}\FloatTok{1}\NormalTok{]),}\FunctionTok{pzmap}\NormalTok{(contSys))}
 \end{Highlighting}
 \end{Shaded}

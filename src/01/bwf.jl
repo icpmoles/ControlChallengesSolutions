@@ -1,7 +1,8 @@
-using CCS: blockModel
+using CCS
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
+CCS.setupEnv()
 
-contSys = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 20)
+contSys = CCS.blockModel.csys(; g = 0, α = 0, μ = 1, τ = 20)
 
 pzmap(contSys)
 bodeplot(contSys)

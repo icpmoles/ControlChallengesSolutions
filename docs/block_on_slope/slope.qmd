@@ -9,11 +9,11 @@ subtitle: Position Control with friction. Using Pole Placement + PD.
 #| label: start-bode
 #| fig-cap: "Starting Bode Plot and PZ Map"
 
-using CCS: blockModel
+using CCS
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
+CCS.setupEnv()
 
-contSys = blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
-
+contSys = CCS.blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
 plot!(bodeplot(contSys[1,1]),pzmap(contSys))
 ```
 
