@@ -57,9 +57,9 @@ format:
     keep-tex: true
     pdf-engine: lualatex 
     code-overflow: wrap
-    sansfont: TeXGyreAdventor
+    sansfont: Berkeley Mono
     monofont: JuliaMono
-    mathfont: LibertinusMath
+    mathfont: Stix Two Math
     mainfont: Inter
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"

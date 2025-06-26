@@ -24,19 +24,11 @@ jobs:
 
       - name: Install Fonts from TTF
         run: |
-          cp docs/_3rdparty/JuliaMono/*.ttf /usr/share/fonts/
+          cp docs/_3rdparty/fonts /usr/share/fonts/
           fc-cache -f -v
       
       - name: Install Software Dependencies
-        run: sudo apt-get install --no-install-recommends librsvg2-bin texlive-fonts-extra fontconfig
-
-      - name: Install Fonts from repo
-        run: |
-          sudo apt-get install  \
-            fonts-inter-variable  \
-            tex-gyre  \
-            fonts-cascadia-code 
-
+        run: sudo apt-get install --no-install-recommends librsvg2-bin fontconfig
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@9e48da27e184aa238fcb49f5db75469626d43adb

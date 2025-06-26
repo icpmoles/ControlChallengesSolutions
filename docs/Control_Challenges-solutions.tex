@@ -25,9 +25,9 @@
 \ifPDFTeX\else
   % xetex/luatex font selection
   \setmainfont[]{Inter}
-  \setsansfont[]{TeXGyreAdventor}
+  \setsansfont[]{Berkeley Mono}
   \setmonofont[]{JuliaMono}
-  \setmathfont[]{LibertinusMath}
+  \setmathfont[]{Stix Two Math}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -325,7 +325,7 @@ at how the simulated model works.
 
 \caption{\texttt{BlockOnSlope.js}}
 
-\phantomsection\label{annotated-cell-36}%
+\phantomsection\label{annotated-cell-38}%
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{Models}\OperatorTok{.}\AttributeTok{BlockOnSlope}\OperatorTok{.}\AttributeTok{prototype}\OperatorTok{.}\AttributeTok{vars} \OperatorTok{=} 
@@ -1051,81 +1051,158 @@ values as random around \(0\).
 
 \begin{verbatim}
 2-element Vector{ComplexF64}:
-                -1.0 + 0.0im
- -0.4331044312441319 + 0.2962239553125152im
+                  -1.0 + 0.0im
+ -0.030437584033531584 + 0.17283801604223903im
 \end{verbatim}
 
-Then with a naive approach we check if all the elements are in the LHP.
+\subsection{\texorpdfstring{\texttt{for}
+loop}{for loop}}\label{for-loop}
+
+With a naive approach we check if all the elements are in the LHP: make
+a function that iterates and returns false if it hits a pole with
+positive real part.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(}\FunctionTok{real}\NormalTok{(vbig)}\OperatorTok{.\textless{}=}\FloatTok{0}\NormalTok{)}
+\KeywordTok{function} \FunctionTok{isHurwitz}\NormalTok{(v)}
+    \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \FunctionTok{eachindex}\NormalTok{(v)}
+        \ControlFlowTok{if} \FunctionTok{real}\NormalTok{(v[i])}\OperatorTok{\textgreater{}}\FloatTok{0.0}
+            \ControlFlowTok{return} \ConstantTok{false}
+        \ControlFlowTok{end}
+    \ControlFlowTok{end}
+    \ControlFlowTok{return} \ConstantTok{true}
+\KeywordTok{end}
+
+\PreprocessorTok{@benchmark} \FunctionTok{isHurwitz}\NormalTok{(}\OperatorTok{$}\NormalTok{(}\FunctionTok{Ref}\NormalTok{(vbig))[])}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-BenchmarkTools.Trial: 10000 samples with 226 evaluations per sample.
- Range (min … max):  323.451 ns … 71.935 μs  ┊ GC (min … max):  0.00% … 98.29%
- Time  (median):     361.947 ns              ┊ GC (median):     0.00%
- Time  (mean ± σ):   582.819 ns ±  1.713 μs  ┊ GC (mean ± σ):  27.61% ± 10.74%
+BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.
+ Range (min … max):  49.949 ns … 969.301 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     54.306 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   57.041 ns ±  22.237 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
-  █▃ ▂▁▂▂                                                      ▁
-  ████████▆▆▅▅▅▅▄▄▅▃▄▃▃▁▃▁▁▃▁▃▁▃▁▁▁▃▁▁▁▁▁▃▁▁▁▁▁▁▁▁▃▅▄▁▁▅▅▄▄▃▃▄ █
-  323 ns        Histogram: log(frequency) by time       7.3 μs <
-
- Memory estimate: 1.78 KiB, allocs estimate: 6.
-\end{verbatim}
-
-The \emph{whole} vector of complex numbers gets converted to real and
-then we check row by row if it's non-positive. The whole check one by
-one results in a vector with booleans that gets checked one by one if it
-contains false values.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(}\OperatorTok{\textless{}=}\NormalTok{(}\FloatTok{0}\NormalTok{),}\FunctionTok{real}\NormalTok{(vbig))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-BenchmarkTools.Trial: 10000 samples with 200 evaluations per sample.
- Range (min … max):  395.000 ns … 102.246 μs  ┊ GC (min … max):  0.00% … 99.04%
- Time  (median):     457.500 ns               ┊ GC (median):     0.00%
- Time  (mean ± σ):   667.069 ns ±   1.728 μs  ┊ GC (mean ± σ):  15.54% ±  9.07%
-
-  █▅▁ ▃▄▃▁                                                      ▁
-  ███▇█████▇▇▆▆▅▆▆▄▄▅▄▃▄▁▄▃▃▄▄▁▃▃▁▁▁▃▃▃▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃ █
-  395 ns        Histogram: log(frequency) by time          7 μs <
-
- Memory estimate: 1.62 KiB, allocs estimate: 2.
-\end{verbatim}
-
-For now we can skip the full evaluation of non-positivity: the first
-time it encounters a positive numbers it returns false. This improves
-the performance a little bit.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(i }\OperatorTok{{-}\textgreater{}} \FunctionTok{real}\NormalTok{(i)}\OperatorTok{\textless{}=}\FloatTok{0}\NormalTok{,vbig)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-BenchmarkTools.Trial: 10000 samples with 328 evaluations per sample.
- Range (min … max):  257.012 ns …  1.215 μs  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     270.122 ns              ┊ GC (median):    0.00%
- Time  (mean ± σ):   279.606 ns ± 55.243 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
-
-   █▃▁                                                          
-  ▆███▇▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▁▂▂▂▂▂▂▂▁▂▂▂▂▁▁▂▂▁▂▂▂▁▂▂▂▁▁▂▁▂▂▂▂▂▂▂▂ ▂
-  257 ns          Histogram: frequency by time          603 ns <
+  ▆▇▆█▇▅▄▃▂▂▁▁▁▁                                               ▂
+  ██████████████▇█▇▇▆▆▆▆▇▆▆▅▅▅▆▅▆▄▄▅▄▅▅▅▅▅▅▄▄▅▄▁▅▃▃▄▄▆▇▁▁▅▆▇▆▆ █
+  49.9 ns       Histogram: log(frequency) by time       126 ns <
 
  Memory estimate: 0 bytes, allocs estimate: 0.
 \end{verbatim}
 
-This is the final form. Instead of converting into real the full vector
-it checks element by element if it's in the LHP. It returns false at the
-first failure.
+We have our baseline. We can probably squeeze out some more performance
+but I'm still a Julia noob.
+
+\subsection{\texorpdfstring{\texttt{all()}}{all()}}\label{all}
+
+Let's try using some of the built-in declarative functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(}\FunctionTok{real}\NormalTok{(}\OperatorTok{$}\NormalTok{vbig)}\OperatorTok{.\textless{}=}\FloatTok{0.0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+BenchmarkTools.Trial: 10000 samples with 746 evaluations per sample.
+ Range (min … max):  183.378 ns …  22.068 μs  ┊ GC (min … max):  0.00% … 97.78%
+ Time  (median):     261.662 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   445.850 ns ± 864.436 ns  ┊ GC (mean ± σ):  32.85% ± 16.78%
+
+  █▇▅▃▁▁▁▁                                                      ▂
+  ██████████▇▆▅▅▅▄▄▅▃▃▁▁▁▁▁▃▅▆▅▅▃▃▃▄▃▃▄▄▃▄▅▆▇▇▇▇▇▆▅▆▅▆▅▅▅▅▅▅▅▅▆ █
+  183 ns        Histogram: log(frequency) by time        5.1 μs <
+
+ Memory estimate: 1.75 KiB, allocs estimate: 5.
+\end{verbatim}
+
+Simple \texttt{all()}, when given a tuple it checks if all the values
+are \texttt{True}, otherwise it stops when it encounters the first
+\texttt{False}.
+
+We can see that it's a tad slower. This is because it's creating a new
+vector with just the real parts, then it's creating a new vector with
+only the boolean results and then it's checking if there are any False
+results.
+
+This results in a lot of allocations and wasted resources.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(}\OperatorTok{\textless{}=}\NormalTok{(}\FloatTok{0.0}\NormalTok{),}\FunctionTok{real}\NormalTok{(}\OperatorTok{$}\NormalTok{vbig))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+BenchmarkTools.Trial: 10000 samples with 759 evaluations per sample.
+ Range (min … max):  144.664 ns …  31.398 μs  ┊ GC (min … max):  0.00% … 97.98%
+ Time  (median):     226.746 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   344.335 ns ± 699.060 ns  ┊ GC (mean ± σ):  22.41% ± 15.26%
+
+  ▂██▆▃▂▁       ▁▂▁▁▁                                           ▂
+  ████████▇▇▆▅▇███████▇▇▇▆▅▅▃▄▄▄▁▄▃▃▃▁▁▄▃▃▃▁▁▁▁▁▁▁▁▃▄▆▆▇███▇▆▇▆ █
+  145 ns        Histogram: log(frequency) by time       2.44 μs <
+
+ Memory estimate: 1.62 KiB, allocs estimate: 2.
+\end{verbatim}
+
+A smarter way is to skip on of the allocations by creating the vector of
+real parts and then checking row by row if the non-positivity check
+fails.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@benchmark} \FunctionTok{all}\NormalTok{(i }\OperatorTok{{-}\textgreater{}} \FunctionTok{real}\NormalTok{(i)}\OperatorTok{\textless{}=}\FloatTok{0.0}\NormalTok{,}\OperatorTok{$}\NormalTok{vbig)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.
+ Range (min … max):  49.139 ns …  2.022 μs  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     51.773 ns              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   53.295 ns ± 22.061 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  ▅▆█▃▂▂                                                      ▁
+  ███████▇▅▆▆▅▄▅▃▄▄▁▅▅▅▄▃▄▅▄▄▄▁▃▃▃▅▁▄▃▄▃▃▃▄▁▄▃▃▃▃▃▁▃▃▃▃▃▄▄▃▁█ █
+  49.1 ns      Histogram: log(frequency) by time       116 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.
+\end{verbatim}
+
+We can do better: Instead of converting into real the full vector it
+checks element by element if it's in the LHP. It returns false at the
+first failure. We finally have a comparable result to the benchmark
+function but in a more compact way.
+
+Is it cleaner? That's subjective.
+
+\subsection{\texorpdfstring{\texttt{mapreduce()}}{mapreduce()}}\label{mapreduce}
+
+Finally we try the MapReduce approach. This allows a better utilization
+of your processor without the necessity of learning parallel
+programming.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@benchmark} \FunctionTok{mapreduce}\NormalTok{(}\FunctionTok{i{-}\textgreater{}real}\NormalTok{(i)}\OperatorTok{\textless{}=}\FloatTok{0.0}\NormalTok{, }\OperatorTok{\&}\NormalTok{, }\OperatorTok{$}\NormalTok{vbig)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+BenchmarkTools.Trial: 10000 samples with 993 evaluations per sample.
+ Range (min … max):  42.095 ns … 692.346 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     43.807 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   46.318 ns ±  15.245 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  ▇█▆▄▅▄▂▁ ▁  ▁                                                ▂
+  █████████████▆▆▆▆▅▇▆█▆▆▅▄▅▄▄▃▆▆▃▁▄▅▅▁▃▄▃▁▄▄▄▃▄▄▅▆▃▄▃▄▄▅▇▆▇▆▆ █
+  42.1 ns       Histogram: log(frequency) by time       102 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.
+\end{verbatim}
+
+We squeeze the last bit of performance and beat the initial benchmark,
+not by much but still appreciable.
 
 
 
