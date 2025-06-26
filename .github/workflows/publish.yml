@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Fonts from TTF
         run: |
-          cp docs/_3rdparty/fonts /usr/share/fonts/
+          cp -r  docs/_3rdparty/fonts /usr/share/fonts/
           fc-cache -f -v
       
       - name: Install Software Dependencies
