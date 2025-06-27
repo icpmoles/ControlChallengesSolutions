@@ -8,7 +8,7 @@
 
 <meta name="description" content="Control Theory with just the right amount of academic rigor">
 
-<title>The Damped Mass problem – Control Challenges: Solutions</title>
+<title>2&nbsp; The Damped Mass problem – Control Challenges: Solutions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="The Damped Mass problem – Control Challenges: Solutions">
+<meta property="og:title" content="2&nbsp; The Damped Mass problem – Control Challenges: Solutions">
 <meta property="og:description" content="Control Theory with just the right amount of academic rigor">
 <meta property="og:image" content="https://pages.icpmol.es/ControlChallengesSolutions/block_on_slope/_static/header.png">
 <meta property="og:site_name" content="Control Challenges: Solutions">
@@ -334,7 +334,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">The Damped Mass problem</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">Block on a Slope</a></li><li class="breadcrumb-item"><a href="../block_on_slope/model.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Damped Mass problem</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -416,8 +416,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../block_on_slope/model.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">The Damped Mass problem</span></a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Block on a Slope</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -425,20 +425,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../block_on_slope/model.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Damped Mass problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../block_on_slope/without_friction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Block without Friction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block without Friction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../block_on_slope/with_friction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block With Friction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block With Friction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../block_on_slope/slope.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block on a slope</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Block on a slope</span></span></a>
   </div>
 </li>
       </ul>
@@ -470,7 +476,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modeling" id="toc-modeling" class="nav-link active" data-scroll-target="#modeling">Modeling</a></li>
+  <li><a href="#modeling" id="toc-modeling" class="nav-link active" data-scroll-target="#modeling"><span class="header-section-number">2.1</span> Modeling</a></li>
   </ul>
 </nav>
     </div>
@@ -478,9 +484,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">Block on a Slope</a></li><li class="breadcrumb-item"><a href="../block_on_slope/model.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Damped Mass problem</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">The Damped Mass problem</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/icpmoles/controlchallengessolutions/blob/main/docs/block_on_slope/model.qmd"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Damped Mass problem</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/icpmoles/controlchallengessolutions/blob/main/docs/block_on_slope/model.qmd"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -512,8 +518,8 @@ window.Quarto = {
 </header>
 
 
-<section id="modeling" class="level2">
-<h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
+<section id="modeling" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="modeling"><span class="header-section-number">2.1</span> Modeling</h2>
 <p>To better understand the problem let’s take a <a href="https://github.com/janismac/ControlChallenges/blob/gh-pages/js/models/BlockOnSlope.js">peek</a> at how the simulated model works.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -1077,7 +1083,7 @@ s \\ v \\ F
   </div>
   <div class="nav-page nav-page-next">
       <a href="../block_on_slope/without_friction.html" class="pagination-link" aria-label="Block without Friction">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Block without Friction</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block without Friction</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

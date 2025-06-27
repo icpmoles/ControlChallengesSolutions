@@ -8,7 +8,7 @@
 
 <meta name="description" content="Control Theory with just the right amount of academic rigor">
 
-<title>3&nbsp; Block With Friction – Control Challenges: Solutions</title>
+<title>4&nbsp; Block With Friction – Control Challenges: Solutions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- Cloudflare Web Analytics --><script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;8c623441dc9e4fdba21d557cafe1138a&quot;}"></script><!-- End Cloudflare Web Analytics -->
 
 
-<meta property="og:title" content="3&nbsp; Block With Friction – Control Challenges: Solutions">
+<meta property="og:title" content="4&nbsp; Block With Friction – Control Challenges: Solutions">
 <meta property="og:description" content="Control Theory with just the right amount of academic rigor">
 <meta property="og:image" content="https://pages.icpmol.es/ControlChallengesSolutions/block_on_slope/_static/header.png">
 <meta property="og:site_name" content="Control Challenges: Solutions">
@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">The Damped Mass problem</a></li><li class="breadcrumb-item"><a href="../block_on_slope/with_friction.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block With Friction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">Block on a Slope</a></li><li class="breadcrumb-item"><a href="../block_on_slope/with_friction.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block With Friction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -390,8 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../block_on_slope/model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">The Damped Mass problem</span></a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Block on a Slope</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -399,20 +399,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../block_on_slope/model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Damped Mass problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../block_on_slope/without_friction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Block without Friction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block without Friction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../block_on_slope/with_friction.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block With Friction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block With Friction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../block_on_slope/slope.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block on a slope</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Block on a slope</span></span></a>
   </div>
 </li>
       </ul>
@@ -444,9 +450,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#response-analysis" id="toc-response-analysis" class="nav-link active" data-scroll-target="#response-analysis"><span class="header-section-number">3.1</span> Response Analysis</a></li>
-  <li><a href="#pole-placement" id="toc-pole-placement" class="nav-link" data-scroll-target="#pole-placement"><span class="header-section-number">3.2</span> Pole Placement</a></li>
-  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"><span class="header-section-number">3.3</span> Simulation</a></li>
+  <li><a href="#response-analysis" id="toc-response-analysis" class="nav-link active" data-scroll-target="#response-analysis"><span class="header-section-number">4.1</span> Response Analysis</a></li>
+  <li><a href="#pole-placement" id="toc-pole-placement" class="nav-link" data-scroll-target="#pole-placement"><span class="header-section-number">4.2</span> Pole Placement</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"><span class="header-section-number">4.3</span> Simulation</a></li>
   </ul>
 </nav>
     </div>
@@ -454,9 +460,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">The Damped Mass problem</a></li><li class="breadcrumb-item"><a href="../block_on_slope/with_friction.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block With Friction</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../block_on_slope/model.html">Block on a Slope</a></li><li class="breadcrumb-item"><a href="../block_on_slope/with_friction.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block With Friction</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block With Friction</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/icpmoles/controlchallengessolutions/blob/main/docs/block_on_slope/with_friction.qmd">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block With Friction</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/icpmoles/controlchallengessolutions/blob/main/docs/block_on_slope/with_friction.qmd">View Source</a></li></ul></div></div>
 <p class="subtitle lead">Position Control with friction. Using Pole Placement + PD.</p>
 </div>
 
@@ -489,8 +495,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="response-analysis" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="response-analysis"><span class="header-section-number">3.1</span> Response Analysis</h2>
+<section id="response-analysis" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="response-analysis"><span class="header-section-number">4.1</span> Response Analysis</h2>
 <div id="cell-start-bode" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1381,8 +1387,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We see that we start with all the poles in the left-half plane, which is good.</p>
 </section>
-<section id="pole-placement" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="pole-placement"><span class="header-section-number">3.2</span> Pole Placement</h2>
+<section id="pole-placement" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="pole-placement"><span class="header-section-number">4.2</span> Pole Placement</h2>
 <p>We can design a controller with pole placement.</p>
 <p>For some reason pole placement doesn’t work for the observer, I use a Kalman Filter with random fast values.</p>
 <div id="6" class="cell" data-execution_count="1">
@@ -1999,8 +2005,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="simulation" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="simulation"><span class="header-section-number">3.3</span> Simulation</h2>
+<section id="simulation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="simulation"><span class="header-section-number">4.3</span> Simulation</h2>
 <p>We can simulate this with a motor that only outputs the position:</p>
 <div id="12" class="cell" data-execution_count="1">
 <details class="code-fold">
@@ -4130,12 +4136,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../block_on_slope/without_friction.html" class="pagination-link" aria-label="Block without Friction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Block without Friction</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Block without Friction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../block_on_slope/slope.html" class="pagination-link" aria-label="Block on a slope">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Block on a slope</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Block on a slope</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
