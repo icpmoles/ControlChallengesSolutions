@@ -55,6 +55,7 @@ format:
   docx: default
   pdf:
     papersize: a4
+    fontsize: 8pt
     keep-tex: true
     pdf-engine: lualatex 
     code-overflow: wrap
