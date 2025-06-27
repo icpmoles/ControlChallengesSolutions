@@ -9,6 +9,7 @@
   DIV=11,
   numbers=noendperiod]{scrreprt}
 \usepackage{xcolor}
+\usepackage[top=30mm,left=20mm,heightrounded]{geometry}
 \usepackage{amsmath,amssymb}
 \setcounter{secnumdepth}{5}
 \usepackage{iftex}
@@ -139,6 +140,7 @@
 
 
 
+\pagestyle{headings}
 
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 
@@ -209,6 +211,8 @@
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
+% Make links footnotes instead of hotlinks:
+\DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
 \hypersetup{
   pdftitle={Control Challenges: Solutions},
   pdfauthor={Iacopo Moles},
@@ -310,12 +314,11 @@ user} ``Janismac''.
   \end{itemize}
 \end{itemize}
 
-\part{The Damped Mass problem}
+\part{Block on a Slope}
 
-\section*{Modeling}\label{modeling}
-\addcontentsline{toc}{section}{Modeling}
+\chapter{The Damped Mass problem}\label{the-damped-mass-problem}
 
-\markright{Modeling}
+\section{Modeling}\label{modeling}
 
 To better understand the problem let's take a
 \href{https://github.com/janismac/ControlChallenges/blob/gh-pages/js/models/BlockOnSlope.js}{peek}
@@ -325,7 +328,7 @@ at how the simulated model works.
 
 \caption{\texttt{BlockOnSlope.js}}
 
-\phantomsection\label{annotated-cell-38}%
+\phantomsection\label{annotated-cell-3}%
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{Models}\OperatorTok{.}\AttributeTok{BlockOnSlope}\OperatorTok{.}\AttributeTok{prototype}\OperatorTok{.}\AttributeTok{vars} \OperatorTok{=} 
@@ -814,7 +817,7 @@ the FMU simulation. I need to recheck some stuff.
 
 
 
-\chapter{Block on a slope}\label{block-on-a-slope}
+\chapter{Block on a slope}\label{block-on-a-slope-1}
 
 Position Control with friction. Using Pole Placement + PD.
 

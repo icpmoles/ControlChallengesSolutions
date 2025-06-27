@@ -25,8 +25,9 @@ book:
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
     - index.qmd
-    - part: block_on_slope/model.qmd
+    - part: Block on a Slope
       chapters: 
+      - block_on_slope/model.qmd
       - block_on_slope/without_friction.qmd
       - block_on_slope/with_friction.qmd
       - block_on_slope/slope.qmd
@@ -61,6 +62,14 @@ format:
     monofont: JuliaMono
     mathfont: Stix Two Math
     mainfont: Inter
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    links-as-notes: true
+    pdfa: true
+    includesource: true
+    pagestyle: headings
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"
       keywords: 
