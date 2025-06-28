@@ -1,3 +1,5 @@
+export isHurwitz, setupEnv
+
 using PlotThemes, Colors, Plots
 using PlotThemes: expand_palette
 
@@ -22,30 +24,39 @@ ccs_palette = [
     ]
 
 _ccstheme = PlotTheme(Dict([
+    # colors
     :palette => expand_palette(colorant"white", ccs_palette; lchoices = [57], cchoices = [100]),
     :colorgradient => :magma,
+    :bginside => RGB(([245, 246, 247] / 255)...),
+    :background => RGB(([239, 239, 239] / 255)...),
+    # grid
     :grid => true,
     :gridalpha => 0.4,
     :linewidth => 1.4,
     :minorgrid => true,
-    :minorticks => 5,
+    :framestyle => :semi,
+    :markeralpha => 0.9,
+    :gridlinewidth => 0.7,
+    # fonts
     :legend => (90,:outer),
-    :fontfamily => "Helvetica",
-    :background => RGB(([245, 246, 247] / 255)...),
-    :bginside => RGB(([239, 239, 239] / 255)...),
-    :framestyle => :box,
-    :markersize => 10,
-    :markeralpha => 1,
+    :fontfamily => "BerkeleyMono-Regular",
+    :yguidefontsize	 => 8,
+    :ytickfontsize => 5,
     :thickness_scaling => 1,
     :ywiden => true,
-    :markerstrokewidth => 4,
+    :markerstrokewidth => 1,
     :markerstrokealpha => 1,
     :markerstrokecolor => :black,
-    :markerstrokestyle => :solid,
-    :gridlinewidth => 0.7])
+    :markerstrokestyle => :solid])
 )
 
 function setupEnv()
+    # detects REPL vs Quarto execution
+    if isfile("quarto.yml")
+        ENV["GKS_FONT_DIRS"] = joinpath(pwd(),"_3rdparty","fonts","BKM")
+    else
+         ENV["GKS_FONT_DIRS"] = joinpath(pwd(),"docs", "_3rdparty","fonts","BKM")
+    end
     add_theme(:ccs, _ccstheme)
     theme(:ccs)
 end

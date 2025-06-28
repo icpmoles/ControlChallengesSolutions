@@ -7,7 +7,7 @@ subtitle: Position Control with friction. Using Pole Placement + PD.
 
 ```{julia}
 #| label: start-bode
-#| fig-cap: "Starting Bode Plot and PZ Map"
+#| fig-cap: "Starting Bode Plot and Pole/Zero Map"
 
 using CCS
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl

@@ -1,13 +1,18 @@
 using CCS
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
-CCS.setupEnv()
+setupEnv()
 
-contSys = CCS.blockModel.csys(; g = 0, α = 0, μ = 1, τ = 20)
 
-pzmap(contSys)
+
+contSys = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 20);
+
 bodeplot(contSys)
 
-
+pzmap(tf([1, 2, 1],[1, 1, 0]))
+pzmap(contSys, title = "Open Loop PZMAP")
+bodeplot(contSys)
+bodeplot(contSys[1, 1];plotphase = true, hz = false)
+ plot!(bodeplot(contSys[1,1]),bodeplot(contSys[2,1]))
 plot!(bodeplot(contSys[1, 1]), pzmap(contSys))
 display(eigvals(contSys.A))
 controllability(contSys.A, contSys.B).iscontrollable || error("System is not controllable")

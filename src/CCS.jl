@@ -1,6 +1,6 @@
 module CCS
 
-export blockModel, setupEnv, isHurwitz
+export blockModel
 
 include("blockModel.jl")
 include("helpers.jl")

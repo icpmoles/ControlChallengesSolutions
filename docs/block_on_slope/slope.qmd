@@ -13,7 +13,7 @@ using CCS
 using ControlSystems, Plots, LinearAlgebra, RobustAndOptimalControl
 CCS.setupEnv()
 
-contSys = CCS.blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20)
+contSys = CCS.blockModel.csys(;g = 0, α = 0 , μ = 1, τ =20.0)
 plot!(bodeplot(contSys[1,1]),pzmap(contSys))
 ```
 
@@ -97,15 +97,12 @@ t = 0:Ts:Tf
 
 res = lsim(sysreal, ctrl, t)
 
-display(plot(res, 
+ p = plot(res, 
     plotu=true, 
     plotx=true, 
     ploty=false
-    ))
-ylabel!("u", sp=1);
-ylabel!("x", sp=2);
-ylabel!("v", sp=3);
-ylabel!("T", sp=4);
+    );ylabel!("u", sp=1);ylabel!("s", sp=2);ylabel!("v", sp=3);ylabel!("τ", sp=4);
+plot(p)
 ```
 
 For more stats:
