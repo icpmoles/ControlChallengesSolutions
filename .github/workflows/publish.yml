@@ -81,12 +81,4 @@ jobs:
             ${{ steps.julia-cache.outputs.cache-paths }}
           key: ${{ steps.julia-cache.outputs.cache-key }}
 
-    # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
 
