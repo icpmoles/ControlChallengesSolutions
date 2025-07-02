@@ -28,7 +28,7 @@ jobs:
           fc-cache -f -v
       
       - name: Install Software Dependencies
-        run: sudo apt-get install --no-install-recommends librsvg2-bin fontconfig
+        run: sudo apt-get install --no-install-recommends librsvg2-bin fontconfig qpdf
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@9e48da27e184aa238fcb49f5db75469626d43adb
@@ -51,16 +51,16 @@ jobs:
       - run: julia --project -e 'using Pkg; Pkg.instantiate()'
       # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
 
-      - name: Publish to GitHub Pages (and render) 
-        uses: quarto-dev/quarto-actions/publish@9e48da27e184aa238fcb49f5db75469626d43adb
+      - name: Render with Quarto
+        uses: quarto-dev/quarto-actions/render@9e48da27e184aa238fcb49f5db75469626d43adb
         with:
           path: docs
-          target: gh-pages
-          GITHUB_EMAIL: 8940011+icpmoles@users.noreply.github.com
-          GITHUB_USERNAME: icpmoles
-          render: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+      
+      - name: Linearize PDF
+        run: tree 
+
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
 
       - name: Save Julia depot cache on cancel or failure
         id: julia-cache-save
