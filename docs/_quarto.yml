@@ -8,19 +8,19 @@ book:
   title: "Control Theory: Tutorial with Julia"
   description: "Control Theory with just the right amount of academic rigor"
   open-graph: 
-    image: static/header.png
+    image: /static/header.png
   output-file: "Control_Tutorial"
   author: "Iacopo Moles"
   repo-url: https://github.com/icpmoles/controltutorial
   repo-subdir: docs
-  favicon: static/favicon.ico
+  favicon: /static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlTutorial/"
   downloads: [pdf, docx]
   language: en
   license: CC BY-SA
   reader-mode: true
   sharing: [facebook, linkedin, twitter]
-  image: static/header.png
+  image: /static/header.png
   page-footer: 
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
@@ -62,10 +62,10 @@ format:
     sansfont: Berkeley Mono
     monofont: JuliaMono
     mathfont: Stix Two Math
-    mainfont: Inter
+    mainfont: Tex-Gyre Pagella
     geometry:
-      - top=30mm
-      - left=20mm
+      - top=20mm
+      - left=10mm
       - heightrounded
     links-as-notes: true
     pdfa: true
