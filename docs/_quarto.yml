@@ -13,14 +13,14 @@ book:
   author: "Iacopo Moles"
   repo-url: https://github.com/icpmoles/controltutorial
   repo-subdir: docs
-  favicon: _static/favicon.ico
+  favicon: /_static/favicon.ico
   site-url: "https://pages.icpmol.es/ControlTutorial/"
   downloads: [pdf, docx]
   language: en
   license: CC BY-SA
   reader-mode: true
   sharing: [facebook, linkedin, twitter]
-  image: _static/header.png
+  image: /_static/header.png
   page-footer: 
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
