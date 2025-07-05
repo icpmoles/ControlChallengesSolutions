@@ -52,6 +52,11 @@ format:
     include-in-header:
       - text: |
             <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8c623441dc9e4fdba21d557cafe1138a"}'></script><!-- End Cloudflare Web Analytics -->
+    grid:
+      sidebar-width: 250px
+      body-width: 1420px
+      margin-width: 250px
+      gutter-width: 1.5rem
   docx: default
   pdf:
     papersize: a4
@@ -59,7 +64,7 @@ format:
     keep-tex: true
     pdf-engine: lualatex 
     code-overflow: wrap
-    sansfont: Berkeley Mono
+    sansfont: Inter
     monofont: JuliaMono
     mathfont: Stix Two Math
     mainfont: Tex-Gyre Pagella
