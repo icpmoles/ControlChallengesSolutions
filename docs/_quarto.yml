@@ -76,7 +76,7 @@ format:
     links-as-notes: true
     pdfa: true
     includesource: true
-    documentclass: tufte-book
+    documentclass: book
     reference-location: margin
     # pagestyle: headings
     metadata:
