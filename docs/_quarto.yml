@@ -59,8 +59,6 @@ format:
       gutter-width: 1.5rem
   docx: default
   pdf:
-    reference-location: margin
-    citation-location: margin
     papersize: a4
     fontsize: 8pt
     keep-tex: true
@@ -78,7 +76,7 @@ format:
     links-as-notes: true
     pdfa: true
     includesource: true
-    pagestyle: fancy
+    pagestyle: heading
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"
       keywords: 
