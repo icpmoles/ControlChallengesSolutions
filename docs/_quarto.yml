@@ -55,7 +55,7 @@ format:
     grid:
       sidebar-width: 250px
       body-width: 1420px
-      margin-width: 250px
+      margin-width: 350px
       gutter-width: 1.5rem
   docx: default
   pdf:
