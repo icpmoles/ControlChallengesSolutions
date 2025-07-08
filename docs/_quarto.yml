@@ -4,8 +4,6 @@ project:
     port: 8200
     browser: true
     
-reference-location: margin
-citation-location: margin
 book:
   title: "Control Theory: Tutorial with Julia"
   description: "Control Theory with just the right amount of academic rigor"
@@ -61,6 +59,8 @@ format:
       gutter-width: 1.5rem
   docx: default
   pdf:
+    reference-location: margin
+    citation-location: margin
     papersize: a4
     fontsize: 8pt
     keep-tex: true
