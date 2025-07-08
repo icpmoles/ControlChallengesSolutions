@@ -24,15 +24,15 @@ book:
   page-footer: 
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
   chapters:
-    - index.qmd
+    - content/index.qmd
     - part: Block on a Slope
       chapters: 
-      - block_on_slope/model.qmd
-      - block_on_slope/without_friction.qmd
-      - block_on_slope/with_friction.qmd
-      - block_on_slope/slope.qmd
+      - content/block_on_slope/model.qmd
+      - content/block_on_slope/without_friction.qmd
+      - content/block_on_slope/with_friction.qmd
+      - content/block_on_slope/slope.qmd
   appendices:
-    - appendix/performance.qmd
+    - content/appendix/performance.qmd
 
 format:
   html:
@@ -76,7 +76,8 @@ format:
     links-as-notes: true
     pdfa: true
     includesource: true
-    pagestyle: headings
+    documentclass: tufte-book
+    # pagestyle: headings
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"
       keywords: 
@@ -119,10 +120,10 @@ engines: ['julia']
 
 authors:
   - name: Iacopo Moles
-    affiliation:
-    - name: Polytechnic University of Milan
-      url: http://www.polimi.it/en
-      country: Italy
-      ror: 01nffqt88
+    # affiliation:
+    # - name: Polytechnic University of Milan
+    #   url: http://www.polimi.it/en
+    #   country: Italy
+    #   ror: 01nffqt88
     url: https://icpmol.es
     email: iacopo@icpmol.es

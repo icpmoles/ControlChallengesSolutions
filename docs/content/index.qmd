@@ -1,0 +1,45 @@
+---
+title: "Introduction"
+---
+
+## Intro {#sec-home}
+
+This is a collection of write ups on how to solve the various problems presented by [Github user](https://janismac.github.io/ControlChallenges/) "Janismac".
+
+## What do I need?
+
+### Software
+
+- A real OS like Linux or Windows. [^1]
+
+- The [Julia Programming Language](https://julialang.org/install/)
+
+    - Clone the [repo](https://github.com/icpmoles/controlchallengessolutions)
+
+    -  Activate the package by running in your terminal:
+
+        ```bash
+        julia --project -e 'using Pkg; Pkg.instantiate()'
+        ```
+
+- (Nice to have) [OpenModelica Editor](https://openmodelica.org/)
+
+### Theory 
+
+- Basic Julia knowledge
+
+- Basic JS knowledge
+
+- Control Theory knowledge
+
+    - Frequency Based Control
+
+    - State Space Based control
+
+- Misc knowledge:
+
+    - Linear Algebra
+
+    - Differential Equations
+
+[^1]: MacOs should be supported in theory but it's not tested.
