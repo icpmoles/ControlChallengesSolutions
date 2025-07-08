@@ -76,7 +76,7 @@ format:
     links-as-notes: true
     pdfa: true
     includesource: true
-    pagestyle: heading
+    pagestyle: headings
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"
       keywords: 
