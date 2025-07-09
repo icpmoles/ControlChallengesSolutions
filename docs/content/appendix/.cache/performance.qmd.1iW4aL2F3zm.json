@@ -1,0 +1,245 @@
+{
+    "cells": [
+        {
+            "id": "1",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "---\n",
+                "title: \"Performance tricks\"\n",
+                "code-fold: show\n",
+                "---\n",
+                "\n",
+                "## Hurwitz Check\n",
+                "\n",
+                "Create our nice model.\n",
+                "Assume to have run the `poles` function and that you have a vector of eigenvalues. For simplicity I will create an arbitrary vector with the first 100 values in $-1$ and the last 100 values as random around $0$."
+            ]
+        },
+        {
+            "id": "2",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "using BenchmarkTools\n",
+                "\n",
+                "vbig = [zeros(ComplexF64,100).-1 ; rand(ComplexF64,100).-0.5];\n",
+                "\n",
+                "vbig[[1,end]]"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "2-element Vector{ComplexF64}:\n                 -1.0 + 0.0im\n -0.24799024016810423 + 0.8662500972954771im"
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "3",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "\n",
+                "### `for` loop\n",
+                "\n",
+                "\n",
+                "With a naive approach we check if all the  elements are in the LHP: make a function that iterates and returns false if it hits a pole with positive real part.\n",
+                ""
+            ]
+        },
+        {
+            "id": "4",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "function isHurwitz(v)\n",
+                "    for i in eachindex(v)\n",
+                "        if real(v[i])>0.0\n",
+                "            return false\n",
+                "        end\n",
+                "    end\n",
+                "    return true\n",
+                "end\n",
+                "\n",
+                "@benchmark isHurwitz($(Ref(vbig))[])"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.\n Range \u001b[90m(\u001b[39m\u001b[36m\u001b[1mmin\u001b[22m\u001b[39m … \u001b[35mmax\u001b[39m\u001b[90m):  \u001b[39m\u001b[36m\u001b[1m50.659 ns\u001b[22m\u001b[39m … \u001b[35m360.588 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmin … max\u001b[90m): \u001b[39m0.00% … 0.00%\n Time  \u001b[90m(\u001b[39m\u001b[34m\u001b[1mmedian\u001b[22m\u001b[39m\u001b[90m):     \u001b[39m\u001b[34m\u001b[1m52.280 ns               \u001b[22m\u001b[39m\u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmedian\u001b[90m):    \u001b[39m0.00%\n Time  \u001b[90m(\u001b[39m\u001b[32m\u001b[1mmean\u001b[22m\u001b[39m ± \u001b[32mσ\u001b[39m\u001b[90m):   \u001b[39m\u001b[32m\u001b[1m53.140 ns\u001b[22m\u001b[39m ± \u001b[32m  7.422 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmean ± σ\u001b[90m):  \u001b[39m0.00% ± 0.00%\n\n  \u001b[39m█\u001b[39m▆\u001b[39m▆\u001b[39m▃\u001b[34m▄\u001b[39m\u001b[39m \u001b[39m█\u001b[32m \u001b[39m\u001b[39m▅\u001b[39m▁\u001b[39m▁\u001b[39m▆\u001b[39m \u001b[39m \u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▂\n  \u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m█\u001b[34m█\u001b[39m\u001b[39m▇\u001b[39m█\u001b[32m█\u001b[39m\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m▇\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m▆\u001b[39m▆\u001b[39m▇\u001b[39m▆\u001b[39m▆\u001b[39m▄\u001b[39m▄\u001b[39m▅\u001b[39m▄\u001b[39m▃\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▁\u001b[39m▅\u001b[39m▁\u001b[39m▄\u001b[39m▃\u001b[39m▁\u001b[39m▃\u001b[39m▄\u001b[39m▁\u001b[39m▄\u001b[39m▄\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▃\u001b[39m▃\u001b[39m▄\u001b[39m▃\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▄\u001b[39m▁\u001b[39m▄\u001b[39m▁\u001b[39m▃\u001b[39m \u001b[39m█\n  50.7 ns\u001b[90m       \u001b[39m\u001b[90mHistogram: \u001b[39m\u001b[90m\u001b[1mlog(\u001b[22m\u001b[39m\u001b[90mfrequency\u001b[39m\u001b[90m\u001b[1m)\u001b[22m\u001b[39m\u001b[90m by time\u001b[39m      73.2 ns \u001b[0m\u001b[1m<\u001b[22m\n\n Memory estimate\u001b[90m: \u001b[39m\u001b[33m0 bytes\u001b[39m, allocs estimate\u001b[90m: \u001b[39m\u001b[33m0\u001b[39m."
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "5",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "\n",
+                "We have our baseline. We can probably squeeze out some more performance but I'm still a Julia noob.\n",
+                "\n",
+                "\n",
+                "### `all()`\n",
+                "\n",
+                "\n",
+                "Let's try using some of the built-in declarative functions:"
+            ]
+        },
+        {
+            "id": "6",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "@benchmark all(real($vbig).<=0.0)"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "BenchmarkTools.Trial: 10000 samples with 776 evaluations per sample.\n Range \u001b[90m(\u001b[39m\u001b[36m\u001b[1mmin\u001b[22m\u001b[39m … \u001b[35mmax\u001b[39m\u001b[90m):  \u001b[39m\u001b[36m\u001b[1m170.876 ns\u001b[22m\u001b[39m … \u001b[35m 18.307 μs\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmin … max\u001b[90m): \u001b[39m 0.00% … 96.10%\n Time  \u001b[90m(\u001b[39m\u001b[34m\u001b[1mmedian\u001b[22m\u001b[39m\u001b[90m):     \u001b[39m\u001b[34m\u001b[1m238.660 ns               \u001b[22m\u001b[39m\u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmedian\u001b[90m):    \u001b[39m 0.00%\n Time  \u001b[90m(\u001b[39m\u001b[32m\u001b[1mmean\u001b[22m\u001b[39m ± \u001b[32mσ\u001b[39m\u001b[90m):   \u001b[39m\u001b[32m\u001b[1m411.172 ns\u001b[22m\u001b[39m ± \u001b[32m851.020 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmean ± σ\u001b[90m):  \u001b[39m36.72% ± 17.16%\n\n  \u001b[39m█\u001b[34m▆\u001b[39m\u001b[39m▂\u001b[32m \u001b[39m\u001b[39m \u001b[39m▁\u001b[39m▁\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▁\n  \u001b[39m█\u001b[34m█\u001b[39m\u001b[39m█\u001b[32m█\u001b[39m\u001b[39m▇\u001b[39m█\u001b[39m█\u001b[39m▆\u001b[39m▆\u001b[39m▁\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m▅\u001b[39m▃\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▃\u001b[39m▃\u001b[39m▅\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m▇\u001b[39m▇\u001b[39m▆\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m \u001b[39m█\n  171 ns\u001b[90m        \u001b[39m\u001b[90mHistogram: \u001b[39m\u001b[90m\u001b[1mlog(\u001b[22m\u001b[39m\u001b[90mfrequency\u001b[39m\u001b[90m\u001b[1m)\u001b[22m\u001b[39m\u001b[90m by time\u001b[39m       5.54 μs \u001b[0m\u001b[1m<\u001b[22m\n\n Memory estimate\u001b[90m: \u001b[39m\u001b[33m1.75 KiB\u001b[39m, allocs estimate\u001b[90m: \u001b[39m\u001b[33m5\u001b[39m."
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "7",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "\n",
+                "Simple `all()`, when given a tuple it checks if all the values are `True`, otherwise it stops when it encounters the first `False`. \n",
+                "\n",
+                "We can see that it's a tad slower. This is because it's creating a new vector with just the real parts, then it's creating a new vector with only the boolean results and then it's checking if there are any False results. \n",
+                "\n",
+                "This results in a lot of allocations and wasted resources.\n",
+                ""
+            ]
+        },
+        {
+            "id": "8",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "@benchmark all(<=(0.0),real($vbig))"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "BenchmarkTools.Trial: 10000 samples with 796 evaluations per sample.\n Range \u001b[90m(\u001b[39m\u001b[36m\u001b[1mmin\u001b[22m\u001b[39m … \u001b[35mmax\u001b[39m\u001b[90m):  \u001b[39m\u001b[36m\u001b[1m150.000 ns\u001b[22m\u001b[39m … \u001b[35m 24.051 μs\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmin … max\u001b[90m): \u001b[39m 0.00% … 98.68%\n Time  \u001b[90m(\u001b[39m\u001b[34m\u001b[1mmedian\u001b[22m\u001b[39m\u001b[90m):     \u001b[39m\u001b[34m\u001b[1m215.327 ns               \u001b[22m\u001b[39m\u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmedian\u001b[90m):    \u001b[39m 0.00%\n Time  \u001b[90m(\u001b[39m\u001b[32m\u001b[1mmean\u001b[22m\u001b[39m ± \u001b[32mσ\u001b[39m\u001b[90m):   \u001b[39m\u001b[32m\u001b[1m310.133 ns\u001b[22m\u001b[39m ± \u001b[32m551.533 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmean ± σ\u001b[90m):  \u001b[39m22.76% ± 15.72%\n\n  \u001b[39m▂\u001b[39m█\u001b[34m▇\u001b[39m\u001b[39m▄\u001b[39m▂\u001b[32m \u001b[39m\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▃\u001b[39m▁\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▁\u001b[39m▁\u001b[39m \u001b[39m▂\n  \u001b[39m█\u001b[39m█\u001b[34m█\u001b[39m\u001b[39m█\u001b[39m█\u001b[32m▇\u001b[39m\u001b[39m▇\u001b[39m▆\u001b[39m▅\u001b[39m▅\u001b[39m▃\u001b[39m▃\u001b[39m▃\u001b[39m▇\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m▆\u001b[39m▆\u001b[39m▅\u001b[39m▆\u001b[39m▅\u001b[39m▆\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▄\u001b[39m▅\u001b[39m▇\u001b[39m█\u001b[39m█\u001b[39m█\u001b[39m \u001b[39m█\n  150 ns\u001b[90m        \u001b[39m\u001b[90mHistogram: \u001b[39m\u001b[90m\u001b[1mlog(\u001b[22m\u001b[39m\u001b[90mfrequency\u001b[39m\u001b[90m\u001b[1m)\u001b[22m\u001b[39m\u001b[90m by time\u001b[39m       2.14 μs \u001b[0m\u001b[1m<\u001b[22m\n\n Memory estimate\u001b[90m: \u001b[39m\u001b[33m1.62 KiB\u001b[39m, allocs estimate\u001b[90m: \u001b[39m\u001b[33m2\u001b[39m."
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "9",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "\n",
+                "\n",
+                "A smarter way is to skip on of the allocations by creating the vector of real parts and then checking row by row if the non-positivity check fails.\n",
+                ""
+            ]
+        },
+        {
+            "id": "10",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "@benchmark all(i -> real(i)<=0.0,$vbig)"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "BenchmarkTools.Trial: 10000 samples with 987 evaluations per sample.\n Range \u001b[90m(\u001b[39m\u001b[36m\u001b[1mmin\u001b[22m\u001b[39m … \u001b[35mmax\u001b[39m\u001b[90m):  \u001b[39m\u001b[36m\u001b[1m49.544 ns\u001b[22m\u001b[39m … \u001b[35m219.656 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmin … max\u001b[90m): \u001b[39m0.00% … 0.00%\n Time  \u001b[90m(\u001b[39m\u001b[34m\u001b[1mmedian\u001b[22m\u001b[39m\u001b[90m):     \u001b[39m\u001b[34m\u001b[1m51.570 ns               \u001b[22m\u001b[39m\u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmedian\u001b[90m):    \u001b[39m0.00%\n Time  \u001b[90m(\u001b[39m\u001b[32m\u001b[1mmean\u001b[22m\u001b[39m ± \u001b[32mσ\u001b[39m\u001b[90m):   \u001b[39m\u001b[32m\u001b[1m53.682 ns\u001b[22m\u001b[39m ± \u001b[32m 11.983 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmean ± σ\u001b[90m):  \u001b[39m0.00% ± 0.00%\n\n  \u001b[39m▁\u001b[39m█\u001b[34m▆\u001b[39m\u001b[39m▂\u001b[32m▃\u001b[39m\u001b[39m▂\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▁\u001b[39m \u001b[39m \u001b[39m▁\n  \u001b[39m█\u001b[39m█\u001b[34m█\u001b[39m\u001b[39m█\u001b[32m█\u001b[39m\u001b[39m█\u001b[39m█\u001b[39m▆\u001b[39m▇\u001b[39m▆\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▄\u001b[39m▇\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▅\u001b[39m▆\u001b[39m▄\u001b[39m▅\u001b[39m▅\u001b[39m▄\u001b[39m▁\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▃\u001b[39m▆\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▄\u001b[39m▃\u001b[39m▅\u001b[39m▃\u001b[39m▄\u001b[39m▁\u001b[39m▄\u001b[39m▃\u001b[39m▃\u001b[39m▅\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▄\u001b[39m▁\u001b[39m▄\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▃\u001b[39m▄\u001b[39m▅\u001b[39m▁\u001b[39m█\u001b[39m█\u001b[39m \u001b[39m█\n  49.5 ns\u001b[90m       \u001b[39m\u001b[90mHistogram: \u001b[39m\u001b[90m\u001b[1mlog(\u001b[22m\u001b[39m\u001b[90mfrequency\u001b[39m\u001b[90m\u001b[1m)\u001b[22m\u001b[39m\u001b[90m by time\u001b[39m       116 ns \u001b[0m\u001b[1m<\u001b[22m\n\n Memory estimate\u001b[90m: \u001b[39m\u001b[33m0 bytes\u001b[39m, allocs estimate\u001b[90m: \u001b[39m\u001b[33m0\u001b[39m."
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "11",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "We can do better: Instead of converting into real the full vector it checks element by element if it's in the LHP. It returns false at the first failure. We finally have a comparable result to the benchmark function but in a more compact way. \n",
+                "\n",
+                "Is it cleaner? That's subjective.\n",
+                "\n",
+                "### `mapreduce()`\n",
+                "\n",
+                "Finally we try the MapReduce approach. This allows a better utilization of your processor without the necessity of learning parallel programming."
+            ]
+        },
+        {
+            "id": "12",
+            "cell_type": "code",
+            "metadata": {
+            },
+            "source": [
+                "@benchmark mapreduce(i->real(i)<=0.0, &, $vbig)"
+            ],
+            "outputs": [
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 1,
+                    "data": {
+                        "text/plain": "BenchmarkTools.Trial: 10000 samples with 992 evaluations per sample.\n Range \u001b[90m(\u001b[39m\u001b[36m\u001b[1mmin\u001b[22m\u001b[39m … \u001b[35mmax\u001b[39m\u001b[90m):  \u001b[39m\u001b[36m\u001b[1m42.036 ns\u001b[22m\u001b[39m … \u001b[35m633.871 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmin … max\u001b[90m): \u001b[39m0.00% … 0.00%\n Time  \u001b[90m(\u001b[39m\u001b[34m\u001b[1mmedian\u001b[22m\u001b[39m\u001b[90m):     \u001b[39m\u001b[34m\u001b[1m42.339 ns               \u001b[22m\u001b[39m\u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmedian\u001b[90m):    \u001b[39m0.00%\n Time  \u001b[90m(\u001b[39m\u001b[32m\u001b[1mmean\u001b[22m\u001b[39m ± \u001b[32mσ\u001b[39m\u001b[90m):   \u001b[39m\u001b[32m\u001b[1m43.741 ns\u001b[22m\u001b[39m ± \u001b[32m 10.518 ns\u001b[39m  \u001b[90m┊\u001b[39m GC \u001b[90m(\u001b[39mmean ± σ\u001b[90m):  \u001b[39m0.00% ± 0.00%\n\n  \u001b[34m█\u001b[39m\u001b[39m▄\u001b[32m▁\u001b[39m\u001b[39m▂\u001b[39m▂\u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m \u001b[39m▁\n  \u001b[34m█\u001b[39m\u001b[39m█\u001b[32m█\u001b[39m\u001b[39m█\u001b[39m█\u001b[39m▇\u001b[39m█\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m▆\u001b[39m▅\u001b[39m▇\u001b[39m▄\u001b[39m▄\u001b[39m▁\u001b[39m▇\u001b[39m▇\u001b[39m▄\u001b[39m▃\u001b[39m▄\u001b[39m▅\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▄\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▄\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▁\u001b[39m▃\u001b[39m▃\u001b[39m▃\u001b[39m▁\u001b[39m▃\u001b[39m▃\u001b[39m█\u001b[39m \u001b[39m█\n  42 ns\u001b[90m         \u001b[39m\u001b[90mHistogram: \u001b[39m\u001b[90m\u001b[1mlog(\u001b[22m\u001b[39m\u001b[90mfrequency\u001b[39m\u001b[90m\u001b[1m)\u001b[22m\u001b[39m\u001b[90m by time\u001b[39m      95.4 ns \u001b[0m\u001b[1m<\u001b[22m\n\n Memory estimate\u001b[90m: \u001b[39m\u001b[33m0 bytes\u001b[39m, allocs estimate\u001b[90m: \u001b[39m\u001b[33m0\u001b[39m."
+                    },
+                    "metadata": {
+                    }
+                }
+            ],
+            "execution_count": 1
+        },
+        {
+            "id": "13",
+            "cell_type": "markdown",
+            "metadata": {
+            },
+            "source": [
+                "\n",
+                "We squeeze the last bit of performance and beat the initial benchmark, not by much but still appreciable."
+            ]
+        }
+    ],
+    "timestamp": "2025-07-09T13:55:26.252",
+    "file": "G:\\ControlTutorial\\docs\\content\\appendix\\performance.qmd",
+    "qnr_schema_version": "1.0.0"
+}

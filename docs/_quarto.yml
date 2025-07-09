@@ -60,7 +60,7 @@ format:
   docx: default
   pdf:
     papersize: a4
-    # fontsize: 8pt
+    fontsize: 8pt
     keep-tex: true
     pdf-engine: lualatex 
     code-overflow: wrap
@@ -68,17 +68,18 @@ format:
     monofont: JuliaMono
     mathfont: Stix Two Math
     mainfont: Tex-Gyre Pagella
-    # geometry:
-    #   - top=25mm
-    #   - left=15mm
-    #   - right=15mm
-    #   - heightrounded
+    geometry:
+      - top=25mm
+      - left=15mm
+      - right=15mm
+      - heightrounded
     links-as-notes: true
     pdfa: true
     includesource: true
     documentclass: book
-    reference-location: margin
-    # pagestyle: headings
+    # reference-location: margin
+    # citation-location: margin
+    pagestyle: headings
     metadata:
       subject: "Control Theory with just the right amount of academic rigor"
       keywords: 

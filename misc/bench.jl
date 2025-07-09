@@ -29,11 +29,15 @@ vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-0.5];
 
 @benchmark real($vbig)
 @benchmark real($vbig).<=0.0
-
+real.(vbig).<=0.0
 
 @benchmark all(real($vbig).<=0.0)
 @benchmark all(<=(0.0),real($vbig))
 @benchmark all(i -> real(i)<=0.0,$vbig)
+
+
+# from https://github.com/JuliaControl/ControlSystems.jl/blob/9165f9c1ae9b824868b60f459d750b646bcdb07a/lib/ControlSystemsBase/src/types/StateSpace.jl#L233C5-L233C56
+@benchmark all(real.($vbig) .<= 0)
 
 @benchmark for i in eachindex($vbig)
                 if real($vbig[i])>0.0
