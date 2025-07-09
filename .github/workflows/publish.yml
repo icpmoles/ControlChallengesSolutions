@@ -12,7 +12,7 @@ permissions:
     id-token: write
 
 env:
-  QUARTO_VERSION: '1.7.32'
+  QUARTO_VERSION: '1.8.16'
   JULIA_VERSION: '1.11.5'
 
 jobs:

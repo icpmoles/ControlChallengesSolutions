@@ -23,13 +23,14 @@ cs = blockModel.csys(; g = 0, α = 0, μ = 1, τ = 100//5)
 
 v = rand(ComplexF64,600).-2
 
-vbighw = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-1.5];
+vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-1.5];
 
 vbig = [zeros(ComplexF64,1000).-1 ; rand(ComplexF64,100).-0.5];
 
 @benchmark real($vbig)
+
 @benchmark real($vbig).<=0.0
-real.(vbig).<=0.0
+@benchmark real.($vbig).<=0.0
 
 @benchmark all(real($vbig).<=0.0)
 @benchmark all(<=(0.0),real($vbig))
