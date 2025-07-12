@@ -1,0 +1,11 @@
+---
+title: "Contr Example"
+filters:
+  - contr
+---
+
+## Heading
+
+This filter adds formatting to heading text.
+
+
