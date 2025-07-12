@@ -157,6 +157,22 @@
   breaklines, breaknonspaceingroup, breakanywhere
 }
 \makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
 \makeatletter
@@ -209,8 +225,6 @@
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
-% Make links footnotes instead of hotlinks:
-\DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
 \hypersetup{
   pdftitle={Control Theory: Tutorial with Julia},
   pdfauthor={Iacopo Moles},
@@ -248,66 +262,19 @@ control, modeling, simulation, tutorial, FMU, openmodelica, julia, ControlSystem
 
 \chapter{Introduction}\label{introduction}
 
-\section{Intro}\label{sec-home}
+\section{What is this?}\label{what-is-this}
 
 This is a collection of write ups on how to solve the various problems
 presented by \href{https://janismac.github.io/ControlChallenges/}{Github
 user} ``Janismac''.
 
-\section{What do I need?}\label{what-do-i-need}
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
 
-\subsection{Software}\label{software}
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colback=white, opacitybacktitle=0.6, opacityback=0, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip with Title}, breakable, toprule=.15mm, colframe=quarto-callout-tip-color-frame, titlerule=0mm, toptitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, arc=.35mm, leftrule=.75mm, bottomrule=.15mm]
 
-\begin{itemize}
-\item
-  A real OS like Linux or Windows. \footnote{MacOs should be supported
-    in theory but it's not tested.}
-\item
-  The \href{https://julialang.org/install/}{Julia Programming Language}
+This is an example of a callout with a title.
 
-  \begin{itemize}
-  \item
-    Clone the
-    \href{https://github.com/icpmoles/controlchallengessolutions}{repo}
-  \item
-    Activate the package by running in your terminal:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{julia} \AttributeTok{{-}{-}project} \AttributeTok{{-}e} \StringTok{\textquotesingle{}using Pkg; Pkg.instantiate()\textquotesingle{}}
-\end{Highlighting}
-\end{Shaded}
-  \end{itemize}
-\item
-  (Nice to have) \href{https://openmodelica.org/}{OpenModelica Editor}
-\end{itemize}
-
-\subsection{Theory}\label{theory}
-
-\begin{itemize}
-\item
-  Basic Julia knowledge
-\item
-  Basic JS knowledge
-\item
-  Control Theory knowledge
-
-  \begin{itemize}
-  \item
-    Frequency Based Control
-  \item
-    State Space Based control
-  \end{itemize}
-\item
-  Misc knowledge:
-
-  \begin{itemize}
-  \item
-    Linear Algebra
-  \item
-    Differential Equations
-  \end{itemize}
-\end{itemize}
+\end{tcolorbox}
 
 \part{Block on a Slope}
 
@@ -417,7 +384,7 @@ s \\ v \\ F
 
 Obviously the gravitational term acts as a disturbance.
 
-\chapter{Block without Friction}\label{block-without-friction}
+\chapter{Block With Friction}\label{block-with-friction}
 
 Position Control with friction. Using Pole Placement + PD.
 
@@ -620,9 +587,9 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
 
-\chapter{Block With Friction}\label{block-with-friction}
+\chapter{Block With Friction}\label{block-with-friction-1}
 
 Position Control with friction. Using Pole Placement + PD.
 
@@ -810,7 +777,7 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
 
 \chapter{Block on a slope}\label{block-on-a-slope-1}
 
@@ -1021,7 +988,7 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
 
 \cleardoublepage
 \phantomsection

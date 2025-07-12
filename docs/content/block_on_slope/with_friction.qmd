@@ -139,9 +139,12 @@ plot(simData, states=false, timeEvents=false)
 
 There is a slight difference between the `lsim` simulation and the FMU simulation. I need to recheck some stuff.
 
-{{< control target="TutorialBlockWithFriction" code="let Kp = 337;
+
+~~~ {.control target=TutorialBlockWithFriction} 
+let Kp = 337;
 let Kd = 64;
 function controlFunction(block)
 {
   return -( block.x * Kp + block.dx*Kd);
-}" >}}
+}
+~~~ 

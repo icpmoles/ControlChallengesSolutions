@@ -73,7 +73,7 @@ format:
       - left=15mm
       - right=15mm
       - heightrounded
-    links-as-notes: true
+    # links-as-notes: true
     pdfa: true
     includesource: true
     documentclass: book
@@ -122,14 +122,9 @@ engines: ['julia']
 
 authors:
   - name: Iacopo Moles
-    # affiliation:
-    # - name: Polytechnic University of Milan
-    #   url: http://www.polimi.it/en
-    #   country: Italy
-    #   ror: 01nffqt88
     url: https://icpmol.es
     email: iacopo@icpmol.es
-    degrees: BSc
+
 
 filters:
   - shortcontrol

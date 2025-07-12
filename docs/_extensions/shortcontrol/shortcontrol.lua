@@ -1,5 +1,3 @@
-
-
 function CodeBlock(code)
   if (code.classes:includes("control")) then
    
