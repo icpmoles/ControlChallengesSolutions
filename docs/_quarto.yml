@@ -18,7 +18,7 @@ book:
   language: en
   license: CC BY-SA 4.0
   reader-mode: true
-  sharing: [facebook, linkedin, twitter]
+  # sharing: [facebook, linkedin, twitter]
   image: static/header.png
   page-footer: 
     center: "Powered by [Quarto {{< version >}}](https://quarto.org/) & the [Julia Programming Language](https://julialang.org/)" 
@@ -65,3 +65,6 @@ authors:
     url: https://icpmol.es
     email: iacopo@icpmol.es
     degrees: BSc
+
+filters:
+  - shortcontrol
