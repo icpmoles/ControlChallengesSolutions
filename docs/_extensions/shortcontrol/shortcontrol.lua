@@ -7,12 +7,18 @@ function CodeBlock(code)
     local url = IfrrameUrl .. "?target=" .. targetType .. '&code=' .. quarto.base64.encode(codePayload)
     local cssStyle = 'width:100%;height:90vh;border-width:3px;border-style:dashed'
 
-
+    linkString = "Open Simulation"
 
     if quarto.doc.isFormat('html')  then
-      return pandoc.RawBlock('html',  '<iframe src="' .. url .. '" style=' .. cssStyle .. '></iframe>' .. '<a href='.. url ..' class="simulation-url">Open Simulation</a>')
+      return pandoc.Div({
+        pandoc.RawBlock('html',  '<iframe src="' .. url .. '" style=' .. cssStyle .. '></iframe>'),
+        pandoc.Link(linkString, url)
+      },{class = 'jsSimulation'})
     else
-      return pandoc.Link({pandoc.Str "Open Simulation"}, url)
+      return pandoc.Div({
+        code,
+        pandoc.Link(linkString, url)
+      })
     end
   end
 end

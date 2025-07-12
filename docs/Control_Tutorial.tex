@@ -268,9 +268,21 @@ This is a collection of write ups on how to solve the various problems
 presented by \href{https://janismac.github.io/ControlChallenges/}{Github
 user} ``Janismac''.
 
-\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let Kp = 337;}
+\NormalTok{let Kd = 64;}
+\NormalTok{function controlFunction(block)}
+\NormalTok{\{}
+\NormalTok{  return {-}( block.x * Kp + block.dx*Kd);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, titlerule=0mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, toprule=.15mm, colframe=quarto-callout-tip-color-frame, breakable, bottomtitle=1mm, toptitle=1mm, leftrule=.75mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip with Title}, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-tip-color!10!white, left=2mm]
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open
+Simulation}
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colframe=quarto-callout-tip-color-frame, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, rightrule=.15mm, arc=.35mm, toptitle=1mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip with Title}, titlerule=0mm, bottomrule=.15mm, left=2mm, opacityback=0, coltitle=black]
 
 This is an example of a callout with a title.
 
@@ -587,7 +599,19 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let Kp = 337;}
+\NormalTok{let Kd = 64;}
+\NormalTok{function controlFunction(block)}
+\NormalTok{\{}
+\NormalTok{  return {-}( block.x * Kp + block.dx*Kd);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open
+Simulation}
 
 \chapter{Block With Friction}\label{block-with-friction-1}
 
@@ -777,7 +801,19 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let Kp = 337;}
+\NormalTok{let Kd = 64;}
+\NormalTok{function controlFunction(block)}
+\NormalTok{\{}
+\NormalTok{  return {-}( block.x * Kp + block.dx*Kd);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open
+Simulation}
 
 \chapter{Block on a slope}\label{block-on-a-slope-1}
 
@@ -988,7 +1024,19 @@ We can also simulate it in a SIMULINK-like environment:
 There is a slight difference between the \texttt{lsim} simulation and
 the FMU simulation. I need to recheck some stuff.
 
-\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open Simulation}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let Kp = 337;}
+\NormalTok{let Kd = 64;}
+\NormalTok{function controlFunction(block)}
+\NormalTok{\{}
+\NormalTok{  return {-}( block.x * Kp + block.dx*Kd);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\href{https://pages.icpmol.es/ControlChallenges/index.html?target=TutorialBlockWithFriction&code=bGV0IEtwID0gMzM3OwpsZXQgS2QgPSA2NDsKZnVuY3Rpb24gY29udHJvbEZ1bmN0aW9uKGJsb2NrKQp7CiAgcmV0dXJuIC0oIGJsb2NrLnggKiBLcCArIGJsb2NrLmR4KktkKTsKfQ==}{Open
+Simulation}
 
 \cleardoublepage
 \phantomsection

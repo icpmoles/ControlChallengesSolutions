@@ -3,3 +3,4 @@
 **/.cache/
 **/**_files/
 /site_libs/
+/.quarto/
