@@ -16,8 +16,3 @@ function controlFunction(block)
 }
 ~~~ 
 
-::: {.callout-tip}
-## Tip with Title
-
-This is an example of a callout with a title.
-:::

@@ -22,5 +22,7 @@
     "julia.inlayHints.static.enabled": true,
     "github-actions.workflows.pinned.workflows": [
         ".github/workflows/publish.yml"
-    ]
+    ],
+    "terminal.integrated.fontFamily": "JuliaMono",
+    "terminal.integrated.fontLigatures.enabled": true
 }
