@@ -10,36 +10,36 @@ This is a collection of write ups on how to solve the various problems presented
 
 ### Software
 
-- A real OS like Linux or Windows. [^1]
+-   A real OS like Linux or Windows. [^index-1]
 
-- The [Julia Programming Language](https://julialang.org/install/)
+-   The [Julia Programming Language](https://julialang.org/install/)
 
-    - Clone the [repo](https://github.com/icpmoles/controlchallengessolutions)
+    -   Clone the [repo](https://github.com/icpmoles/controlchallengessolutions)
 
-    -  Activate the package by running in your terminal:
+    -   Activate the package by running in your terminal:
 
-        ```bash
+        ``` bash
         julia --project -e 'using Pkg; Pkg.instantiate()'
         ```
 
-- (Nice to have) [OpenModelica Editor](https://openmodelica.org/)
+-   (Nice to have) [OpenModelica Editor](https://openmodelica.org/)
 
-### Theory 
+[^index-1]: MacOs should be supported in theory but it's not tested.
 
-- Basic Julia knowledge
+### Theory
 
-- Basic JS knowledge
+-   Basic Julia knowledge
 
-- Control Theory knowledge
+-   Basic JS knowledge
 
-    - Frequency Based Control
+-   Control Theory knowledge
 
-    - State Space Based control
+    -   Frequency Based Control
 
-- Misc knowledge:
+    -   State Space Based control
 
-    - Linear Algebra
+-   Misc knowledge:
 
-    - Differential Equations
+    -   Linear Algebra
 
-[^1]: MacOs should be supported in theory but it's not tested.
+    -   Differential Equations
